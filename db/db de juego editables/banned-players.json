@@ -1,1 +1,15 @@
-[]
+[ 
+    { "uuid": "05e6e3bd-1bed-4618-87fb-3535c2e1d391", 
+    "name": "Zephy_Foxy", 
+    "created": "2020-03-04 20:19:19 +0100", 
+    "source": "Server", 
+    "expires": "forever", 
+    "reason": "Banned by an operator." },
+    
+    { "uuid": "9abd3b4d-a8cd-4290-acc5-303c74da3e3f", 
+    "name": "FermatSleep", 
+    "created": "2022-01-16 16:35:58 +0100", 
+    "source": "Kiesp", 
+    "expires": "forever", 
+    "reason": "Log4J attempt" }
+]
