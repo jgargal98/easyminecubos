@@ -1,74 +1,87 @@
 <?php
+session_start();
+
 print "<h1>Configura tu server</h1>";
 
-$properties = fopen("default.properties", "r");
+if (isset($_SESSION['valid_user'])){
 
-print "<form action='escribir_propiedades.php' method='post'>";
-while(!feof($properties)) {
+    $properties = fopen("default.properties", "r");
 
-    //separamos el archivo en lineas para modificarlo
-    $linea = explode("< >", fgets($properties));
+    print "<form action='escribir_propiedades.php' method='post'>";
+    while(!feof($properties)) {
 
-    //Presentamos las opciones que a mi me interesan en un formulario
-    $opcion = explode("=", $linea[0]);
+        //separamos el archivo en lineas para modificarlo
+        $linea = explode("< >", fgets($properties));
 
-    if (substr($opcion[0],0,1) != "#") {
-        switch (trim($opcion[0])) {
-            case "difficulty":
-                print $opcion[0] . ": 
-                <select name='" . $opcion[0] . "'>
-                    <option value='peaceful'>peaceful</option>
-                    <option value='easy'>easy</option>
-                    <option value='normal'>normal</option>
-                    <option value='hard'>hard</option>
-                    </select><br><br>";
-            break;
-            
-            case "gamemode":
-                print $opcion[0] . ": 
-                <select name='" . $opcion[0] . "'>
-                    <option value='survival'>survival</option>
-                    <option value='creative'>creative</option>
-                    <option value='adventure'>adventure</option>
-                    <option value='spectator'>spectator</option>
-                    </select><br><br>";
-            break;
+        //Presentamos las opciones que a mi me interesan en un formulario
+        $opcion = explode("=", $linea[0]);
 
-            case "spawn-protection":
-            case "max-players":
-            case "motd":
-            case "online-mode":
-            case "simulation-distance":
-            case "view-distance":
-                print $opcion[0] . ": 
-                <input type='text' name='" . $opcion[0] . "' value='" . $opcion[1] . "'><br><br>";
-            break;
-            
-            default:
-                //Opciones booleanas true-false
-                if (trim($opcion[1]) === "true" || trim($opcion[1]) === "false") {
-                    //entonces será un select de true o false, con opcion preseleccionada
+        if (substr($opcion[0],0,1) != "#") {
+            switch (trim($opcion[0])) {
+                case "difficulty":
                     print $opcion[0] . ": 
-                    <select name='" . $opcion[0] . "'>";
-                    
-                    switch (trim($opcion[1])) {
-                        case "true":
-                            print
-                                "<option value='true' selected='selected'>true</option>
-                                <option value='false'>false</option>
-                                </select><br><br>";
-                        break;
-                        case "false":
-                            print 
-                                "<option value='true'>true</option>
-                                <option value='false' selected='selected'>false</option>
-                                </select><br><br>";
-                        break;
+                    <select name='" . $opcion[0] . "'>
+                        <option value='peaceful'>peaceful</option>
+                        <option value='easy'>easy</option>
+                        <option value='normal'>normal</option>
+                        <option value='hard'>hard</option>
+                        </select><br><br>";
+                break;
+                
+                case "gamemode":
+                    print $opcion[0] . ": 
+                    <select name='" . $opcion[0] . "'>
+                        <option value='survival'>survival</option>
+                        <option value='creative'>creative</option>
+                        <option value='adventure'>adventure</option>
+                        <option value='spectator'>spectator</option>
+                        </select><br><br>";
+                break;
+
+                case "spawn-protection":
+                case "max-players":
+                case "motd":
+                case "simulation-distance":
+                case "view-distance":
+                    print $opcion[0] . ": 
+                    <input type='text' name='" . $opcion[0] . "' value='" . $opcion[1] . "'><br><br>";
+                break;
+                
+                default:
+                    //Opciones booleanas true-false
+                    if (trim($opcion[1]) === "true" || trim($opcion[1]) === "false") {
+                        //entonces será un select de true o false, con opcion preseleccionada
+                        print $opcion[0] . ": 
+                        <select name='" . $opcion[0] . "'>";
+                        
+                        switch (trim($opcion[1])) {
+                            case "true":
+                                print
+                                    "<option value='true' selected='selected'>true</option>
+                                    <option value='false'>false</option>
+                                    </select><br><br>";
+                            break;
+                            case "false":
+                                print 
+                                    "<option value='true'>true</option>
+                                    <option value='false' selected='selected'>false</option>
+                                    </select><br><br>";
+                            break;
+                        }
                     }
+                break;
                 }
-            break;
-            }
+        }
     }
+    print "<input type='submit' value='Enviar'>";
+
+    print "</form>";
+    fclose($properties);
+
 }
-print "</form>";
-fclose($properties);
+else
+{
+  print '<p>No estas conectado.</p>';
+}
+
+print '<a href="logout.php">Salir</a>';
