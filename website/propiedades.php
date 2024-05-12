@@ -1,13 +1,27 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Easy Minecubos</title>
+    <link rel='stylesheet' href='properties.css'>
+</head>
+<body>
+    <div class='container'>
+        <img src='assets/easy-minecubos.png' alt='Título de la Página'>
+    </div>
+    <div class='container'>
+        <div class='formulario'>
+
 <?php
 session_start();
 
-print "<h1>Configura tu server</h1>";
-
-if (isset($_SESSION['valid_user'])){
+if (isset($_SESSION['usuario'])){
 
     $properties = fopen("default.properties", "r");
 
-    print "<form action='escribir_propiedades.php' method='post'>";
+    print "<form action='escribir_propiedades.php' class='signup-form' method='post'>";
+
     while(!feof($properties)) {
 
         //separamos el archivo en lineas para modificarlo
@@ -20,7 +34,7 @@ if (isset($_SESSION['valid_user'])){
             switch (trim($opcion[0])) {
                 case "difficulty":
                     print $opcion[0] . ": 
-                    <select name='" . $opcion[0] . "'>
+                    <select name='" . $opcion[0] . "' class='minecraft-select'>
                         <option value='peaceful'>peaceful</option>
                         <option value='easy'>easy</option>
                         <option value='normal'>normal</option>
@@ -30,7 +44,7 @@ if (isset($_SESSION['valid_user'])){
                 
                 case "gamemode":
                     print $opcion[0] . ": 
-                    <select name='" . $opcion[0] . "'>
+                    <select name='" . $opcion[0] . "' class='minecraft-select'>
                         <option value='survival'>survival</option>
                         <option value='creative'>creative</option>
                         <option value='adventure'>adventure</option>
@@ -52,7 +66,7 @@ if (isset($_SESSION['valid_user'])){
                     if (trim($opcion[1]) === "true" || trim($opcion[1]) === "false") {
                         //entonces será un select de true o false, con opcion preseleccionada
                         print $opcion[0] . ": 
-                        <select name='" . $opcion[0] . "'>";
+                        <select name='" . $opcion[0] . "' class='minecraft-select'>";
                         
                         switch (trim($opcion[1])) {
                             case "true":
@@ -73,9 +87,10 @@ if (isset($_SESSION['valid_user'])){
                 }
         }
     }
-    print "<input type='submit' value='Enviar'>";
+    print "<button type='submit' class='minecraft-button'>Enviar</button>
+            </form>";
 
-    print "</form>";
+
     fclose($properties);
 
 }
@@ -84,4 +99,11 @@ else
   print '<p>No estas conectado.</p>';
 }
 
-print '<a href="logout.php">Salir</a>';
+
+?>
+
+        </div>
+        <a href='logout.php' class='back-to-home'>Salir</a>
+    </div>
+</body>
+</html>

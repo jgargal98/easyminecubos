@@ -1,69 +1,85 @@
 <?php
+#include "../inc/dbinfo.inc";
+
 session_start();
 
-if (isset($_POST['user']) && isset($_POST['pass']))
-{
-  $user = $_POST['user'];
-  $pass = $_POST['pass'];
+// Configuración de la base de datos
+$servername = "localhost"; // Cambia a la dirección del servidor si es necesario
+$username = "root";
+$password = "2asir";
+$database = "easyminecubos";
 
-  $conexion = mysqli_connect("localhost", "root", "2asir");
-  mysqli_select_db($conexion, "usuarios");
-  
-  $buscarhash = mysqli_query($conexion, "SELECT pass FROM usuario WHERE user='$user'");
+// Crear conexión
+#$conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);
+$conn = new mysqli($servername, $username, $password, $database);
 
-while ($registro=mysqli_fetch_row($buscarhash)){ 
-    $hash = $registro[0]; 
+// Comprobar la conexión
+if ($conn->connect_error) {
+    die("Error de conexión a la base de datos.");
+}
 
-};
+// Inicializar las variables
+$nombre = $pass = "";
+$error = "";
 
-  if (password_verify($pass, $hash)) {
-      $_SESSION['valid_user'] = $user;
+// Procesar el formulario cuando se envía
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Validación de campos
+    $nombre = $_POST["username"];
+    $pass = $_POST["password"];
+
+    // Verificar las credenciales en la base de datos
+    $sql = "SELECT * FROM usuario WHERE user='$nombre'";
+    $result = $conn->query($sql);
+
+    if ($result === false) {
+        // Manejar errores de SQL de manera personalizada
+        $error = "Hubo un error al realizar la consulta.";
+    } elseif ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        if (password_verify($pass, $row["pass"])) {
+            // Iniciar sesión y redirigir al usuario a una página de inicio
+            $_SESSION["usuario"] = $nombre;
+            header("Location: propiedades.php");
+            exit();
+        } else {
+            $error = "Credenciales incorrectas.";
+        }
+    } else {
+        $error = "El usuario no existe.";
     }
-  }
+}
 ?>
 
-<html>
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>EasyMinecubos - Login</title>
+    <link rel='stylesheet' href='styles.css'>
+</head>
 <body>
-<h1>Login</h1>
-
-<?php
-  if (isset($_SESSION['valid_user']))
-  {
-    print 'Acceso concedido: '.$_SESSION['valid_user'].' <br>';
-    print ' <a href="propiedades.php">Acceder</a>
-            <br>
-            <a href="logout.php">Salir</a><br>';
-  }
-  else
-  {
-    if (isset($user))
-    {
-      // Se ha intentado la conexion sin exito
-      print 'Credenciales incorrectas<br>';
-    }
-    else 
-    {
-      // Aun no se ha intentado conectar o se ha desconectado ya
-      print 'No estas conectado.<br>';
-    }
-
-    // Proporciona un formulario para conectarse
-    print '<form method="post" action="login.php">
-          <table>
-            <tr>
-              <td>Usuario:</td>
-              <td><input type="text" name="user" required></td>
-            </tr>
-            <tr>
-              <td>Contraseña:</td>
-              <td><input type="password" name="pass" required></td>
-            </tr>
-            <tr>
-              <td colspan="2" align="center"><input type="submit" value="Conexion"></td>
-            </tr>
-          </table>
-        </form>';
-  }
-?>
+<body>
+        <div class='container'>
+            <img src='assets/easy-minecubos.png' alt='Título de la Página'>
+        <form class='signup-form' action='login.php' method='POST'>
+            <h2>Iniciar Sesión</h2>
+            <input type='text' name='username' placeholder='Usuario' required>
+            <input type='password' name='password' placeholder='Contraseña' required><br>
+            <span style="color: red;"><?php echo $error; ?></span><br> <!-- Muestra el mensaje de error -->
+            <button type='submit' class='minecraft-button'>Iniciar Sesión</button>
+        </form>
+        <a href='index.html' class='back-to-home'>Volver a la página de inicio</a>
+    </div>
 </body>
 </html>
+
+
+        
+
+
+<?php
+// Cierra la conexión
+$conn->close();
+?>

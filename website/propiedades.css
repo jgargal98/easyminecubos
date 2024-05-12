@@ -1,0 +1,50 @@
+@font-face {
+    font-family: 'Minecraft';
+    src: url('assets/fuente.ttf') format('truetype'); /* Ruta relativa a tu archivo CSS */
+    /* Puedes agregar otros formatos si tienes disponibles, como woff, woff2, etc. */
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url('assets/background.jpg');
+    background-size: 96px; 
+    background-repeat: repeat;
+    font-family: 'Minecraft', Arial, sans-serif; /* Fallback a Arial o cualquier otra fuente sans-serif */    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.minecraft-form {
+    width: 300px;
+    margin: 0 auto;
+    text-align: center;
+    font-family: 'Minecraft', sans-serif;
+}
+
+.minecraft-input, .minecraft-select, .minecraft-button {
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    font-family: 'Minecraft', sans-serif;
+}
+
+.minecraft-button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.minecraft-button:hover {
+    background-color: #45a049;
+}
+
+/* Agregar más estilos según sea necesario */

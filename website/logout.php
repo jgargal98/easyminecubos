@@ -1,26 +1,13 @@
 <?php
-  session_start();
-if(isset($_SESSION['valid_user']))
-{
-  $old_user = $_SESSION['valid_user'];
-  unset($_SESSION['valid_user']);
-  session_destroy();
-}
-?>
-<html>
-<body>
+// Iniciar la sesión
+session_start();
 
-<?php 
-  if (!empty($old_user))
-  {
-    print '<h1>Se ha desconectado</h1><br>';
-  }
-  else
-  {
-    // Si no habia usuario conectado pero se accede de alguna manera en esta pagina
-    print 'Error: No hay usuario registrado.<br>';
-  }
-?> 
-<a href="index.html">Volver a la pagina principal</a>
-</body>
-</html>
+// Destruir todas las variables de sesión
+$_SESSION = array();
+
+// Destruir la sesión
+session_destroy();
+
+// Redirigir al usuario a la página de inicio de sesión
+header("Location: index.html");
+exit();
