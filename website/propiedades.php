@@ -99,7 +99,6 @@ else
   print '<p>No estas conectado.</p>';
 }
 
-
 ?>
 
         </div>
