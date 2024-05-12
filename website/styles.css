@@ -1,0 +1,126 @@
+@font-face {
+    font-family: 'Minecraft';
+    src: url('assets/fuente.ttf') format('truetype'); /* Ruta relativa a tu archivo CSS */
+    /* Puedes agregar otros formatos si tienes disponibles, como woff, woff2, etc. */
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url('assets/background.jpg');
+    background-size: 96px; 
+    background-repeat: repeat;
+    font-family: 'Minecraft', Arial, sans-serif; /* Fallback a Arial o cualquier otra fuente sans-serif */    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    text-align: center;
+}
+
+.container img {
+    max-width: 100%;
+}
+
+.options {
+    margin-top: 20px; /* Ajusta la separación entre la imagen y los botones */
+}
+
+.minecraft-button {
+    display: inline-block;
+    width: 180px;
+    padding: 10px 20px;
+    background-color: #7f7f7f;
+    border: 2px solid #333333;
+    color: #ffffff;
+    text-decoration: none;
+    font-family: 'Minecraft', Arial, sans-serif;
+    font-size: 16px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.minecraft-button:hover {
+    background-color: #8f8f8f;
+    border-color: #444444;
+}
+
+.minecraft-button:active {
+    background-color: #6f6f6f;
+    border-color: #222222;
+}
+
+.minecraft-button a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.signup-form {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    text-align: center;
+    max-width: 400px; /* Establece el ancho máximo del formulario */
+    margin: auto; /* Centra el formulario en la página */
+}
+
+.signup-form h2 {
+    color: #ffffff;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.signup-form input[type="text"],
+.signup-form input[type="email"],
+.signup-form input[type="password"] {
+    width: calc(100% - 40px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+}
+
+.signup-form button[type="submit"] {
+    width: calc(100% - 40px);
+    padding: 10px 0;
+    margin-top: 20px;
+    border: none;
+    background-color: #7f7f7f;
+    color: #ffffff;
+    font-family: 'Minecraft', Arial, sans-serif;
+    font-size: 16px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.signup-form button[type="submit"]:hover {
+    background-color: #8f8f8f;
+}
+
+.signup-form button[type="submit"]:active {
+    background-color: #6f6f6f;
+}
+
+/* Estilos para el botón de volver a la página de inicio */
+.back-to-home {
+    display: block;
+    margin-top: 20px;
+    font-size: 14px;
+    text-decoration: none;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.back-to-home:hover {
+    text-decoration: underline;
+}

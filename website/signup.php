@@ -1,11 +1,15 @@
 <?php
+
+include "../inc/dbinfo.inc";
+
 session_start();
 
 
 if (isset($_POST['user']) && isset($_POST['pass'])){
 
-  $user = $_POST['user'];
-  $pass = $_POST['pass'];
+  $user   = $_POST['username'];
+  $email  = $_POST['email'];
+  $pass   = $_POST['password'];
 
 
   $options = [

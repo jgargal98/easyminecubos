@@ -1,3 +1,10 @@
 https://minecraft.fandom.com/wiki/Server.properties
 https://minecraft.fandom.com/wiki/Whitelist.json
 https://www.reddit.com/r/admincraft/comments/101cvdf/what_code_should_bannedipsjson_and/
+
+db: user:   johnbarbacoa
+    pw:     proyectointegrado2024
+    
+    endpoint: easyminecubos-db.c9grvogynohy.us-east-1.rds.amazonaws.com
+
+    Creamos el archivo para enlazar la instancia EC2 a la instancia de la BBDD
