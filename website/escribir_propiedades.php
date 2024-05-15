@@ -1,6 +1,6 @@
 <?php
 
-include "../inc/dbinfo.inc";
+#include "../inc/dbinfo.inc";
 
 session_start();
 
@@ -24,9 +24,13 @@ foreach ($_POST as $key => $value) {
 
 $file = $user . "-docker-compose.yml";
 
-file_put_contents($file, $docker_compose_content);
-
-echo "Archivo $file generado correctamente.";
+if (file_put_contents($file, $docker_compose_content) !== false) {
+    echo "Archivo $file generado correctamente.";
+} else {
+    // Si hay un error, captura el mensaje de error
+    $error = error_get_last();
+    echo "Error al generar el archivo $file: " . $error['message'];
+}
 /*
 
 $pass = "easyminecubos-servermc.pem";
