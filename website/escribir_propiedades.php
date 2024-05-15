@@ -1,4 +1,7 @@
-<?php 
+<?php
+
+include "../inc/dbinfo.inc";
+
 session_start();
 
 $user = $_SESSION['usuario'];
@@ -21,13 +24,13 @@ foreach ($_POST as $key => $value) {
 
 $file = $user . "-docker-compose.yml";
 
-$pass = SSH_PASS;
-
-$destiny = "ec2-user@34.202.66.61:/docker/$user-compose";
-
 file_put_contents($file, $docker_compose_content);
 
 echo "Archivo $file generado correctamente.";
+/*
+
+$pass = "easyminecubos-servermc.pem";
+$destiny = "ec2-user@34.202.66.61:/docker/$user-compose";
 
 $comando_scp = "scp -i $pass $file $destiny";
 exec($comando_scp);
