@@ -12,3 +12,5 @@ Instalamos mysql client para poder modificar la bbdd
 sudo dnf install mariadb105
 
 conectarse a la bbdd desde el cliente en la instancia EC2: mysql -h easyminecubos-db.c9grvogynohy.us-east-1.rds.amazonaws.com -P 3306 -u johnbarbacoa -p
+
+Hacer que la máquina actualice la página web cada vez que se arranca:
