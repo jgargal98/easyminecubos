@@ -20,15 +20,20 @@ foreach ($_POST as $key => $value) {
 }
 
 $file = $user . "-docker-compose.yml";
+
+$pass = SSH_PASS;
+
+$destiny = "ec2-user@34.202.66.61:/docker/$user-compose";
+
 file_put_contents($file, $docker_compose_content);
 
 echo "Archivo $file generado correctamente.";
 
-$comando_scp = "scp $file usuario@otra_maquina:/ruta/destino";
+$comando_scp = "scp -i $pass $file $destiny";
 exec($comando_scp);
 
 $dockercompose = "docker-compose -f $file up";
 
-$comando_ssh = "ssh $usuario@$otra_maquina \"$dockercompose\"";
+$comando_ssh = "ssh -i $pass $destiny \"$dockercompose\"";
 exec($comando_ssh);
 ?>
