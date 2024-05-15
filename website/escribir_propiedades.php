@@ -1,6 +1,5 @@
+<p>Chupa chotas</p>
 <?php
-
-echo "CHUPA CHOTAS MALVADO";
 /*
 #include "../inc/dbinfo.inc";
 ini_set('display_errors', 1);
