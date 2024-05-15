@@ -1,5 +1,5 @@
 <?php
-#include "../inc/dbinfo.inc";
+include "../inc/dbinfo.inc";
 
 session_start();
 
@@ -10,8 +10,8 @@ $password = "2asir";
 $database = "easyminecubos";
 
 // Crear conexión
-#$conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);
-$conn = new mysqli($servername, $username, $password, $database);
+$conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+#$conn = new mysqli($servername, $username, $password, $database);
 
 // Comprobar la conexión
 if ($conn->connect_error) {
