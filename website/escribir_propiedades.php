@@ -1,7 +1,5 @@
-<p>Chupa chotas</p>
 <?php
-/*
-#include "../inc/dbinfo.inc";
+include "../inc/dbinfo.inc";
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -48,3 +46,4 @@ $dockercompose = "docker-compose -f $file up";
 $comando_ssh = "ssh -i $pass $destiny \"$dockercompose\"";
 exec($comando_ssh);
 ?>
+*/
