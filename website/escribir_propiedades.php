@@ -11,6 +11,10 @@ $user = $_SESSION['usuario'];
 
 $file ="/var/www/html/dockercomposes/" . $user . "-docker-compose.yml";
 
+if (!file_exists("$file")) {
+    touch("$file");
+}
+
 fopen("$file", "w");
 
 $docker_compose_content = "
