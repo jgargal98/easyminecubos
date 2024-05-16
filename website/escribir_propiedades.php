@@ -9,7 +9,7 @@ session_start();
 $user = $_SESSION['usuario'];
 
 
-$file ="/var/www/html/dockercomposes/" . $user . "-docker-compose.yml";
+$file ="/var/www/dockercomposes/" . $user . "-docker-compose.yml";
 
 if (!file_exists("$file")) {
     touch("$file");
