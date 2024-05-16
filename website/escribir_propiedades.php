@@ -41,7 +41,7 @@ if (file_put_contents($file, $docker_compose_content) !== false) {
     echo "Error al generar el archivo $file: " . $error['message'];
 }
 
-$pass = "easyminecubos-servermc.pem";
+$pass = "/home/ec2-user/easyminecubos-servermc.pem";
 $destiny = "ec2-user@34.202.66.61:/home/ec2-user/docker";
 
 $comando_scp = "scp -i $pass $file $destiny/$user-compose";
