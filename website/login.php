@@ -21,10 +21,7 @@ if ($conn->connect_error) {
 // Inicializar las variables
 $nombre = $pass = "";
 $error = "";
-
-// Procesar el formulario cuando se envía
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Validación de campos
+// Validación de campos
     $nombre = $_POST["username"];
     $pass = $_POST["password"];
 
@@ -48,7 +45,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $error = "El usuario no existe.";
     }
-}
 ?>
 
 <!DOCTYPE html>
@@ -74,10 +70,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </body>
 </html>
-
-
-        
-
 
 <?php
 // Cierra la conexión
