@@ -24,7 +24,7 @@ foreach ($_POST as $key => $value) {
     $docker_compose_content .= "            - $key = $value\n";
 }
 
-$file = $user . "-docker-compose.yml";
+$file ="/tmp/dockercomposes/" . $user . "-docker-compose.yml";
 
 if (file_put_contents($file, $docker_compose_content) !== false) {
     echo "Archivo $file generado correctamente.";
