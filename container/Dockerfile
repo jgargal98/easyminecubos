@@ -15,7 +15,11 @@ RUN wget -O server.jar https://piston-data.mojang.com/v1/objects/4fb536bfd4a83d6
 
 RUN echo "eula=true" > eula.txt
 
-RUN chmod +x script.sh && ./script.sh
+RUN pwd > t.txt
+
+RUN chmod +x create_properties.sh 
+
+RUN sh create_properties.sh
 
 EXPOSE 25565
 

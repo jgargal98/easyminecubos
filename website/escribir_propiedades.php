@@ -49,7 +49,9 @@ exec($comando_scp);
 
 echo "archivo enviado correctamente.<br>";
 
-$dockercompose = "docker-compose -f $file up";
+$file2 = $user . "-docker-compose.yml";
+
+$dockercompose = "docker-compose -f $file2 up";
 
 $comando_ssh = "ssh -i $pass $destiny \"$dockercompose\"";
 exec($comando_ssh);
