@@ -1,21 +1,44 @@
 #!/bin/bash
 
-# Nombre del archivo de propiedades
-PROPERTIES_FILE="server.properties"
+# Descargar Minecraft (suponiendo que necesitas descargarlo)
+# Comando de descarga de Minecraft aquí...
 
-# Crear un archivo de propiedades si no existe
-touch "$PROPERTIES_FILE"
+# Iniciar el servidor
+java -Xmx2G -Xms1G -jar server.jar nogui &
 
-# Iterar sobre las variables de entorno definidas
-for var in $(printenv); do
-    # Obtener el nombre de la variable y su valor
-    key="${var%%=*}"
-    value="${var#*=}"
-    # Verificar si la línea ya está presente en el archivo
-    if grep -q "^$key=" "$PROPERTIES_FILE"; then
-        # Si la línea está presente, eliminarla del archivo
-        sed -i "/^$key=/d" "$PROPERTIES_FILE"
+# Capturar el PID del proceso del servidor
+SERVER_PID=$!
+
+# Esperar un tiempo razonable para que el servidor inicie completamente
+sleep 30
+
+# Detener el servidor de Minecraft
+kill "$SERVER_PID"
+
+# Ruta del archivo server.properties
+FILE="server.properties"
+
+# Verificar si el archivo existe
+if [ ! -f "$FILE" ]; then
+    echo "El archivo $FILE no existe."
+    exit 1
+fi
+
+# Leer el archivo server.properties línea por línea
+while IFS='=' read -r key value; do
+    # Ignorar líneas que comienzan con '#' (comentarios)
+    if echo "$key" | grep -q "^#"; then
+        continue
     fi
-    # Agregar la variable de entorno al archivo
-    echo "$key=$value" >> "$PROPERTIES_FILE"
-done
+    
+    # Buscar si existe una variable de entorno con el mismo nombre que la clave
+    env_value=$(eval echo "\$$key")
+    if [ -n "$env_value" ]; then
+        # Si la variable de entorno existe, sobrescribir el valor en el archivo server.properties
+        sed -i "s/^$key=.*/$key=$env_value/" "$FILE"
+        echo "Se ha sobrescrito el valor de $key en $FILE con el valor de la variable de entorno."
+    fi
+done < "$FILE"
+
+# Iniciar el servidor nuevamente
+java -Xmx2G -Xms1G -jar server.jar nogui &

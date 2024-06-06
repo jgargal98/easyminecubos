@@ -43,7 +43,7 @@ if (file_put_contents($file, $docker_compose_content) !== false) {
     $destiny = "ec2-user@34.202.66.61:/home/ec2-user/docker";
 
     $comando_scp = "scp -i $pass $file $destiny";
-    exec($comando_scp);
+    echo exec($comando_scp);
 
     echo $comando_scp . "<br>";
 
