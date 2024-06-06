@@ -3,11 +3,12 @@ include "../inc/dbinfo.inc";
 
 session_start();
 
-// Configuración de la base de datos
+/*// Configuración de la base de datos
 $servername = "localhost"; // Cambia a la dirección del servidor si es necesario
 $username = "root";
 $password = "2asir";
 $database = "easyminecubos";
+*/
 
 // Crear conexión
 $conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
@@ -37,7 +38,7 @@ $error = "";
         if (password_verify($pass, $row["pass"])) {
             // Iniciar sesión y redirigir al usuario a una página de inicio
             $_SESSION["usuario"] = $nombre;
-            header("Location: propiedades.php");
+            header("Location: dashboard.php");
             exit();
         } else {
             $error = "Credenciales incorrectas.";
