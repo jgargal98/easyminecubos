@@ -35,6 +35,7 @@ else
 
 ?>
         </div>
+        <div class='container'>
         <a href='logout.php' class='back-to-home'>Salir</a>
     </div>
 </body>
