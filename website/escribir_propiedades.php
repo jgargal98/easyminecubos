@@ -45,7 +45,7 @@ if (file_put_contents($file, $docker_compose_content) !== false) {
     $comando_scp = "scp -i $pass $file $destiny";
     exec($comando_scp);
 
-    echo exec('ls -la');
+    echo exec('pwd');
 
     echo $comando_scp . "<br>";
 
