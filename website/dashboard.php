@@ -17,7 +17,7 @@ session_start();
 
 if (isset($_SESSION['usuario'])){
 
-    if ("variable" == true) {
+    if ("variable" == false) {
         print "Tu servidor está encendido, debes detenerlo para poder configurarlo.<br><br>";
     }else {
         print " <div class='options'>
