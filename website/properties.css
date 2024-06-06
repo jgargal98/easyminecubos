@@ -76,7 +76,7 @@ body {
     margin-top: 20px;
     text-align: center;
     max-width: 400px; /* Establece el ancho máximo del formulario */
-    margin: auto; /* Centra el formulario en la página */
+    margin: 0 auto; /* Centra el formulario en la página */
 }
 
 .signup-form h2 {
