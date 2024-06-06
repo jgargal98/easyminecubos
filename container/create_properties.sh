@@ -4,17 +4,24 @@
 PROPERTIES_FILE="server.properties"
 
 # Crear un archivo de propiedades si no existe
-touch $PROPERTIES_FILE
+touch "$PROPERTIES_FILE"
 
-# Iterar sobre las variables de entorno definidas en el archivo docker-compose
-for var in $(env | grep -E '^[A-Za-z0-9_]+=' | grep -Eo '^[A-Za-z0-9_]+'); do
-    # Obtener el valor de la variable de entorno
-    value=$(printenv $var)
-    # Reemplazar el valor de la variable en el archivo de propiedades si ya existe
-    if grep -q "^$var=" $PROPERTIES_FILE; then
-        sed -i "s/^$var=.*/$var = $value/g" $PROPERTIES_FILE
-    else
-        # Si la variable no existe en el archivo, la añade
-        echo "$var = $value" >> $PROPERTIES_FILE
+# Leer el contenido actual del archivo
+current_content=$(<"$PROPERTIES_FILE")
+
+# Iterar sobre las variables de entorno definidas
+for var in $(env); do
+    # Obtener el nombre de la variable y su valor
+    key="${var%%=*}"
+    value="${var#*=}"
+    # Verificar si la línea ya está presente en el archivo
+    if grep -q "^$key=" <<< "$current_content"; then
+        # Si la línea está presente, eliminarla del contenido
+        current_content=$(grep -v "^$key=" <<< "$current_content")
     fi
+    # Agregar la variable de entorno al contenido actualizado
+    current_content+="$key=$value"$'\n'
 done
+
+# Escribir el contenido actualizado en el archivo
+echo "$current_content" > "$PROPERTIES_FILE"
