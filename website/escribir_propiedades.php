@@ -42,8 +42,8 @@ if (file_put_contents($file, $docker_compose_content) !== false) {
     $pass = "/home/ec2-user/easyminecubos-servermc.pem";
     $destiny = "ec2-user@34.202.66.61:/home/ec2-user/docker";
 
-    $comando_scp = "scp -i $pass $file $destiny";
-    exec($comando_scp);
+    $comando_scp = "scp -i $pass $file $destiny &> out.log ";
+    echo exec($comando_scp );
 
     echo exec('pwd');
 
