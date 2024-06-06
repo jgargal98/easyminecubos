@@ -1,5 +1,13 @@
 <?php
 include "../inc/dbinfo.inc";
+
+$host = '34.202.66.61';
+$port = 22; // Puerto por defecto para SSH
+$username = 'ec2-user';
+$private_key = '/home/ec2-user/easyminecubos-servermc.pem'; // Ruta a tu clave privada
+$passphrase = null; // Si tu clave tiene una frase de paso, añádela aquí
+
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -10,6 +18,10 @@ $user = $_SESSION['usuario'];
 
 
 $file ="/var/www/dockercomposes/" . $user . "-docker-compose.yml";
+
+// Ruta del archivo local y destino remoto
+$local_file = $file;
+$remote_file = "/home/ec2-user/docker/" . $user . "-docker-compose.yml";
 
 if (!file_exists("$file")) {
     touch("$file");
@@ -39,31 +51,24 @@ foreach ($_POST as $key => $value) {
 if (file_put_contents($file, $docker_compose_content) !== false) {
     echo "Archivo $file generado correctamente.<br>";
 
-    $pass = "/home/ec2-user/easyminecubos-servermc.pem";
-    $destiny = "ec2-user@34.202.66.61:/home/ec2-user/docker";
+    // Establecer conexión
+    $connection = ssh2_connect($host, $port);
+    if (!$connection) {
+        die('No se pudo conectar al servidor.');
+    }
 
-    $comando_scp = "scp -i $pass $file $destiny > out.log ";
-    echo exec($comando_scp );
+    // Autenticación con clave pública y privada
+    if (!ssh2_auth_pubkey_file($connection, $username, $public_key, $private_key, $passphrase)) {
+        die('No se pudo autenticar con la clave pública/privada.');
+    }
 
-    echo exec('pwd');
+    // Inicializar sesión SCP y transferir el archivo
+    $scp = ssh2_scp_send($connection, $local_file, $remote_file, 0644);
+    if (!$scp) {
+        die('No se pudo transferir el archivo.');
+    }
 
-    echo $comando_scp . "<br>";
-
-    echo "archivo enviado correctamente.<br>";
-
-    $file2 = "/home/ec2-user/docker/" . $user . "-docker-compose.yml";
-
-    $dockercompose = "docker-compose -f $file2 up";
-    
-    $destiny = "ec2-user@34.202.66.61";
-
-    $comando_ssh = "ssh -i $pass $destiny \"$dockercompose\"";
-
-    exec($comando_ssh);
-
-    echo $comando_ssh . "<br>";
-
-    echo "Contenedor arrancado.<br>";
+    echo 'Archivo transferido con éxito.';
 
 }else {
     // Si hay un error, captura el mensaje de error
