@@ -1,6 +1,7 @@
 @font-face {
     font-family: 'Minecraft';
     src: url('assets/fuente.ttf') format('truetype'); /* Ruta relativa a tu archivo CSS */
+    /* Puedes agregar otros formatos si tienes disponibles, como woff, woff2, etc. */
     font-weight: normal;
     font-style: normal;
 }
@@ -36,36 +37,6 @@ body {
 .formulario {
     margin-top: 20px;
     text-align: left;
-    display: flex;
-    flex-direction: column;
-    gap: 15px; /* Espaciado uniforme entre los elementos dentro de .formulario */
-}
-
-.form-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.form-row label {
-    flex: 1;
-    margin-right: 10px; /* Ajusta el espaciado entre el label y el select */
-}
-
-.form-row select {
-    flex: 2;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    font-size: 16px;
-    /* Ajuste para mostrar opciones en horizontal */
-    width: auto;
-    display: inline-block;
-}
-
-.form-row select option {
-    display: inline-block;
-    margin-right: 10px; /* Espacio entre las opciones */
 }
 
 .minecraft-input, .minecraft-select, .minecraft-button {
@@ -104,11 +75,8 @@ body {
     border-radius: 10px;
     margin-top: 20px;
     text-align: center;
-    max-width: 600px; /* Ajuste el ancho máximo del formulario según sea necesario */
+    max-width: 400px; /* Establece el ancho máximo del formulario */
     margin: auto; /* Centra el formulario en la página */
-    display: flex;
-    flex-direction: column;
-    gap: 15px; /* Espaciado uniforme entre los elementos dentro del formulario */
 }
 
 .signup-form h2 {
@@ -123,10 +91,10 @@ body {
 .signup-form input[type="password"] {
     width: calc(100% - 40px);
     padding: 10px;
+    margin-bottom: 10px;
     border-radius: 5px;
     border: none;
     font-size: 16px;
-    margin-bottom: 10px;
 }
 
 .signup-form button[type="submit"] {
