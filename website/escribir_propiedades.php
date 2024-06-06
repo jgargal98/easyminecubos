@@ -43,6 +43,8 @@ if (file_put_contents($file, $docker_compose_content) !== false) {
     $comando_scp = "scp -i $pass $file $destiny/$user-compose";
     exec($comando_scp);
 
+    echo $comando_scp . "<br>";
+
     echo "archivo enviado correctamente.<br>";
 
     $file2 = $user . "-docker-compose.yml";
@@ -51,6 +53,8 @@ if (file_put_contents($file, $docker_compose_content) !== false) {
 
     $comando_ssh = "ssh -i $pass $destiny \"$dockercompose\"";
     exec($comando_ssh);
+
+    echo $comando_ssh . "<br>";
 
     echo "Contenedor arrancado.<br>";
 
