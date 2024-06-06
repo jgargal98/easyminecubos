@@ -32,7 +32,7 @@ services:
 ";
 
 foreach ($_POST as $key => $value) {
-    $value = preg_replace("/[^a-zA-Z0-9]/", "", $value);
+    $value = preg_replace("/[^a-zA-Z0-9\s]/", "", $value);
     $docker_compose_content .= "            - $key = $value\n";
 }
 
