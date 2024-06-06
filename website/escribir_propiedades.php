@@ -17,13 +17,15 @@ if (!file_exists("$file")) {
 
 fopen("$file", "w");
 
+$container_name = $user . "-server";
+
 $docker_compose_content = "
 version: '3.8'
 services:
     minecraft_server:
-        build:
-            context: .
-            dockerfile: Dockerfile
+        build: .
+        image: easy-minecubos
+        container_name: $container_name
         ports:
             - '25565:25565'
         environment:
