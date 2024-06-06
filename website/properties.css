@@ -58,6 +58,14 @@ body {
     border-radius: 5px;
     border: none;
     font-size: 16px;
+    /* Ajuste para mostrar opciones en horizontal */
+    width: auto;
+    display: inline-block;
+}
+
+.form-row select option {
+    display: inline-block;
+    margin-right: 10px; /* Espacio entre las opciones */
 }
 
 .minecraft-input, .minecraft-select, .minecraft-button {
@@ -96,7 +104,7 @@ body {
     border-radius: 10px;
     margin-top: 20px;
     text-align: center;
-    max-width: 400px; /* Establece el ancho máximo del formulario */
+    max-width: 600px; /* Ajuste el ancho máximo del formulario según sea necesario */
     margin: auto; /* Centra el formulario en la página */
     display: flex;
     flex-direction: column;
