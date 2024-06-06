@@ -1,7 +1,7 @@
 <?php
 include "../inc/dbinfo.inc";
 
-dl('ssh2.so'); // Para sistemas Unix/Linux
+//dl('ssh2.so'); // Para sistemas Unix/Linux
 
 $host = '34.202.66.61';
 $port = 22; // Puerto por defecto para SSH
