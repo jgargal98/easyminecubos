@@ -47,11 +47,14 @@ if (file_put_contents($file, $docker_compose_content) !== false) {
 
     echo "archivo enviado correctamente.<br>";
 
-    $file2 = $user . "-docker-compose.yml";
+    $file2 = "/home/ec2-user/docker/" . $user . "-docker-compose.yml";
 
     $dockercompose = "docker-compose -f $file2 up";
+    
+    $destiny = "ec2-user@34.202.66.61";
 
     $comando_ssh = "ssh -i $pass $destiny \"$dockercompose\"";
+
     exec($comando_ssh);
 
     echo $comando_ssh . "<br>";
