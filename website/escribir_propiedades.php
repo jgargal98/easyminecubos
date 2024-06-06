@@ -1,13 +1,7 @@
 <?php
 include "../inc/dbinfo.inc";
 
-if (!extension_loaded('ssh2')) {
-    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-        dl('php_ssh2.dll'); // Para sistemas Windows
-    } else {
-        dl('ssh2.so'); // Para sistemas Unix/Linux
-    }
-}
+dl('ssh2.so'); // Para sistemas Unix/Linux
 
 $host = '34.202.66.61';
 $port = 22; // Puerto por defecto para SSH
