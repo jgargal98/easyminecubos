@@ -3,12 +3,12 @@ include "../inc/dbinfo.inc";
 
 session_start();
 
-/*// Configuración de la base de datos
+// Configuración de la base de datos
 $servername = "localhost"; // Cambia a la dirección del servidor si es necesario
 $username = "root";
 $password = "2asir";
 $database = "easyminecubos";
-*/
+
 
 // Crear conexión
 $conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
