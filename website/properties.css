@@ -88,8 +88,9 @@ body {
 
 .signup-form input[type="text"],
 .signup-form input[type="email"],
-.signup-form input[type="password"] {
-    width: calc(100% - 40px);
+.signup-form input[type="password"],
+.signup-form select {
+    width: calc(100% - 40px); /* Ajusta el ancho de los campos de entrada */
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
