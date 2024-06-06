@@ -66,7 +66,7 @@ if (isset($_SESSION['usuario'])){
                     if (trim($opcion[1]) === "true" || trim($opcion[1]) === "false") {
                         //entonces será un select de true o false, con opcion preseleccionada
                         print $opcion[0] . ": 
-                        <select name='" . $opcion[0] . "' class='minecraft-select'>";
+                        <select name='" . $opcion[0] . "' class='minecraft-select'><br>";
                         
                         switch (trim($opcion[1])) {
                             case "true":
