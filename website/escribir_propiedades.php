@@ -62,18 +62,18 @@ if (file_put_contents($file, $docker_compose_content) !== false) {
     // Establecer conexión
     $connection = ssh2_connect($host, $port);
     if (!$connection) {
-        die('No se pudo conectar al servidor.');
+        echo'No se pudo conectar al servidor.';
     }
 
     // Autenticación con clave pública y privada
     if (!ssh2_auth_pubkey_file($connection, $username, $public_key, $private_key, $passphrase)) {
-        die('No se pudo autenticar con la clave pública/privada.');
+        echo'No se pudo autenticar con la clave pública/privada.';
     }
 
     // Inicializar sesión SCP y transferir el archivo
     $scp = ssh2_scp_send($connection, $local_file, $remote_file, 0644);
     if (!$scp) {
-        die('No se pudo transferir el archivo.');
+        echo'No se pudo transferir el archivo.';
     }
 
     echo 'Archivo transferido con éxito.';
