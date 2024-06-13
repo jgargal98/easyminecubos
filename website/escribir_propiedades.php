@@ -60,8 +60,8 @@ if (!$ssh->login($username, $privateKey)) {
     throw new Exception('SSH login failed');
 }
 
-// execute echo command to test SSH command execution
-$command = "./hello_world.sh $user";
+// Arrancar el contenedor con la variable del nombre de usuario
+$command = "./run_server.sh $user";
 $output = $ssh->exec($command);
 
 if ($output === false) {
