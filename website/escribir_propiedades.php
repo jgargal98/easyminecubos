@@ -1,7 +1,11 @@
 <?php
 include "../inc/dbinfo.inc";
 
-//dl('ssh2.so'); // Para sistemas Unix/Linux
+require 'vendor/autoload.php'; // Autoload de Composer
+
+use phpseclib3\Net\SSH2;
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Net\SCP;
 
 $host = '34.202.66.61';
 $port = 22; // Puerto por defecto para SSH
@@ -9,10 +13,9 @@ $username = 'ec2-user';
 $private_key = '/home/ec2-user/easyminecubos-servermc.pem'; // Ruta a tu clave privada
 $passphrase = null; // Si tu clave tiene una frase de paso, añádela aquí
 
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// Leer la clave privada
+$key = new RSA();
+$key->load(file_get_contents($private_key));
 
 session_start();
 
@@ -53,24 +56,26 @@ foreach ($_POST as $key => $value) {
 if (file_put_contents($file, $docker_compose_content) !== false) {
     echo "Archivo $file generado correctamente.<br>";
 
-    // Establecer conexión
-    $connection = ssh2_connect($host, $port);
-    if (!$connection) {
-        echo'No se pudo conectar al servidor.';
+    // Crear una instancia de SSH2
+    $ssh = new SSH2($host, $port);
+
+    if (!$ssh->login($username, $key)) {
+        exit('Login Failed');
     }
 
-    // Autenticación con clave pública y privada
-    if (!ssh2_auth_pubkey_file($connection, $username, $public_key, $private_key, $passphrase)) {
-        echo'No se pudo autenticar con la clave pública/privada.';
-    }
+    // Crear una instancia de SCP
+    $scp = new SCP($ssh);
 
-    // Inicializar sesión SCP y transferir el archivo
-    $scp = ssh2_scp_send($connection, $local_file, $remote_file, 0644);
-    if (!$scp) {
-        echo'No se pudo transferir el archivo.';
-    }
+    // Ruta del archivo local y destino en el servidor remoto
+    $localFile = 'path/to/local/file.txt';
+    $remoteFile = 'path/to/remote/file.txt';
 
-    echo 'Archivo transferido con éxito.';
+    // Transferir el archivo
+    if ($scp->put($remoteFile, file_get_contents($localFile))) {
+        echo "Archivo transferido correctamente.\n";
+    } else {
+        echo "Error al transferir el archivo.\n";
+    }
 
 }else {
     // Si hay un error, captura el mensaje de error
