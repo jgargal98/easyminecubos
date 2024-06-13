@@ -3,6 +3,7 @@ include "../inc/dbinfo.inc";
 require "vendor/autoload.php";
 use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Net\SFTP;
+use phpseclib3\Net\SSH2;
 
 session_start();
 
@@ -43,10 +44,9 @@ echo "Archivo $file generado correctamente.<br>";
 
 
 // Crear la sesión SFTP
-
-$host = '34.202.66.61'; // Dirección IP o nombre de host SSH
-$username = 'ec2-user'; // Nombre de usuario SSH
-$private_key_file = '/home/ec2-user/easyminecubos-servermc.pem'; // Ruta a tu clave privada
+$host = '34.202.66.61';
+$username = 'ec2-user';
+$private_key_file = '/home/ec2-user/easyminecubos-servermc.pem';
 
 $sftp = new SFTP($host);
 
@@ -68,3 +68,27 @@ if (!$sftp->put($RemoteFile, $LocalFile, SFTP::SOURCE_LOCAL_FILE)) {
 }
 
 echo "Archivo '$LocalFile' copiado correctamente a '$RemoteFile' en el servidor remoto.\n";
+
+
+//EJECUCIÓN DEL CONTENEDOR
+// Crear sesión de SSH
+$ssh = new SSH2($host);
+if (!$ssh->login($username, $privateKey)) {
+    throw new Exception('SSH login failed');
+}
+
+// Ejecutar el comando docker-compose
+//$command = "docker-compose -f $remote_file up -d";
+
+$command = "echo 'Hola, mundo!'";
+$output = $ssh->exec($command);
+
+if (!$ssh->exec($command)) {
+    throw new Exception('Error al ejecutar comando SSH');
+}
+if ($output === false) {
+    throw new Exception('Error al ejecutar comando SSH');
+}
+
+echo "Respuesta del comando SSH:\n";
+echo $output . "\n";
