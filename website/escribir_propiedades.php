@@ -10,7 +10,6 @@ $host = '34.202.66.61'; // Dirección IP o nombre de host SSH
 $port = 22; // Puerto por defecto para SSH
 $username = 'ec2-user'; // Nombre de usuario SSH
 $private_key_file = '/home/ec2-user/easyminecubos-servermc.pem'; // Ruta a tu clave privada
-$passphrase = null; // Frase de contraseña (si es necesaria)
 
 session_start();
 
@@ -31,18 +30,16 @@ try {
         }
     }
 
-    // Crear una instancia de SFTP
+    // Crear una instancia de SFTP con debug habilitado
     $sftp = new SFTP($host, $port);
+    $sftp->enableDebug(__DIR__ . '/sftp.log'); // Habilitar debug y especificar archivo de log
 
     // Leer la clave privada
     $key = file_get_contents($private_key_file);
 
-    // Cargar la clave privada si tiene passphrase
-    // $sftp->setPrivateKey($key, $passphrase);
-
     // Intentar autenticarse con la clave privada
     if (!$sftp->login($username, $key)) {
-        throw new Exception('Login SFTP fallido');
+        throw new Exception('Login SFTP fallido. Detalles: ' . $sftp->getLastSFTPError());
     }
 
     // Contenido de Docker Compose
@@ -76,7 +73,7 @@ services:
     if ($sftp->put($remoteFile, $localFile, SFTP::SOURCE_LOCAL_FILE)) {
         echo "Archivo transferido correctamente.\n";
     } else {
-        throw new Exception('Error al transferir el archivo mediante SFTP');
+        throw new Exception('Error al transferir el archivo mediante SFTP. Detalles: ' . $sftp->getLastSFTPError());
     }
 } catch (Exception $e) {
     echo 'Error: ' . $e->getMessage();
