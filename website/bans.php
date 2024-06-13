@@ -52,10 +52,7 @@ if (isset($_SESSION['usuario'])) {
         <form action="escribir_bans.php" method="post" class="signup-form">
             <h3>Vetar jugador</h3>
             <label for="name">Nombre:</label><br>
-            <input type="text" id="name" name="name" required><br><br>
-            
-            <input type="hidden" id="expires" name="expires" value="forever">
-            
+            <input type="text" id="name" name="name" required><br><br>            
             <label for="reason">Razón:</label><br>
             <textarea id="reason" name="reason" rows="4" maxlength="200" required></textarea><br><br>
             
