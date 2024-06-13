@@ -17,8 +17,9 @@
 session_start();
 
 if (isset($_SESSION['usuario'])){
+    $user = $_SESSION['usuario'];
 
-    $properties = fopen("default.properties", "r");
+    $properties = fopen("propiedades/$user.properties", "r");
 
     print "<form action='escribir_propiedades.php' class='signup-form' method='post'>";
 
