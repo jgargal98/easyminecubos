@@ -22,9 +22,9 @@ if (isset($_SESSION['usuario'])){
     }else {
         print " <div class='options'>
                     <a href='propiedades.php' class='minecraft-button'>Propiedades</a>
-                    <a href='bans.php' class='minecraft-button'>Administrar bans</a>
-                    <a href='ops.php' class='minecraft-button'>Administrar ops</a>
-                    <a href='whitelist.php' class='minecraft-button'>Administrar whitelist</a>
+                    <a href='bans.php' class='minecraft-button'>jugadores vetados</a>
+                    <a href='ops.php' class='minecraft-button'>Operadores</a>
+                    <a href='whitelist.php' class='minecraft-button'>whitelist</a>
                 </div>";
     }
 }
