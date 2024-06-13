@@ -10,7 +10,7 @@ session_start();
 //CREACION DEL DOCKER COMPOSE
 
 $user = $_SESSION['usuario'];
-$directory = "/var/www/properties/";
+$directory = "/var/www/dockercomposes/";
 $file = $directory . $user . ".properties";
 
 // Contenido de Docker Compose
