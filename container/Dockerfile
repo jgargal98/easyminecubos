@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copiar el script y otros archivos necesarios
-COPY create_properties.sh /minecraft/
+COPY run_server.sh /minecraft/
 COPY env.txt /minecraft/
 
 # Descargar el archivo del servidor de Minecraft
@@ -24,4 +24,4 @@ RUN echo "eula=true" > eula.txt
 RUN chmod +x /minecraft/create_properties.sh
 
 # Ejecutar el script al inicio del contenedor
-CMD ["./create_properties.sh"]
+CMD ["./run_server.sh"]

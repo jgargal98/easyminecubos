@@ -29,9 +29,6 @@ if (file_put_contents($file, $docker_compose_content) === false) {
 
 echo "Archivo $file generado correctamente.<br>";
 
-
-
-
 // Crear la sesión SFTP
 $host = '34.202.66.61';
 $username = 'ec2-user';
@@ -67,7 +64,7 @@ if (!$ssh->login($username, $privateKey)) {
 }
 
 // execute echo command to test SSH command execution
-$command = "echo 'SSH command executed successfully'";
+$command = "./hello_world.sh";
 $output = $ssh->exec($command);
 
 if ($output === false) {
