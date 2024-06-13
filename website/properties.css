@@ -86,6 +86,21 @@ body {
     text-align: center;
 }
 
+.signup-form textarea {
+    width: calc(100% - 40px); /* Ajusta el ancho máximo del textarea */
+    max-width: 100%; /* Garantiza que no exceda el ancho máximo permitido */
+    min-width: 100%; /* Garantiza que tenga el ancho mínimo */
+    padding: 10px; /* Añade espacio interno al textarea */
+    margin-bottom: 10px; /* Ajusta el margen inferior */
+    border-radius: 5px; /* Añade bordes redondeados */
+    border: 1px solid #ccc; /* Añade borde */
+    font-size: 16px; /* Tamaño de fuente */
+    resize: vertical; /* Permite ajuste vertical */
+    max-height: 200px; /* Altura máxima */
+    box-sizing: border-box; /* Garantiza que el padding no afecte al ancho total */
+    min-height: 120px; /* Altura mínima */
+}
+
 .signup-form input[type="text"],
 .signup-form input[type="email"],
 .signup-form input[type="password"],

@@ -57,7 +57,7 @@ if (isset($_SESSION['usuario'])) {
             <input type="hidden" id="expires" name="expires" value="forever">
             
             <label for="reason">Razón:</label><br>
-            <textarea id="reason" name="reason" rows="4" required></textarea><br><br>
+            <textarea id="reason" name="reason" rows="4" maxlength="200" required></textarea><br><br>
             
             <button type="submit" name="añadirJugador" class="minecraft-button">Vetar jugador</button>
         </form>
