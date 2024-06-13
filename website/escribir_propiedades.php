@@ -41,16 +41,24 @@ try {
         }
     }
 
-    // Crear una instancia de SSH2
-    $ssh = new SSH2($host, $port);
-
-    // Leer la clave privada
-    $key = file_get_contents($private_key);
-
-    // Intentar autenticarse con la clave privada
-    if (!$ssh->login($username, $key)) {
-        throw new Exception('Login SSH fallido');
-    }
+    try {
+        // Crear una instancia de SSH2
+        $ssh = new SSH2($host, $port);
+    
+        // Leer la clave privada y cargarla en RSA
+        $key = new RSA();
+        $key->loadKey(file_get_contents($private_key));
+    
+        // Intentar autenticarse con la clave privada
+        if (!$ssh->login($username, $key)) {
+            throw new Exception('Login SSH fallido. Detalles: ' . $ssh->getLastError());
+        }
+    
+        // Resto del código para generar el archivo y transferirlo
+    
+    } catch (Exception $e) {
+        echo 'Error: ' . $e->getMessage();
+    }    
 
     // Contenido de Docker Compose
     $container_name = $user . "-server";
