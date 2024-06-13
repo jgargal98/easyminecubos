@@ -7,10 +7,14 @@ if (!file_exists($private_key)) {
     exit('Error: No se encuentra la clave privada en ' . $private_key . '<br>');
 }
 
+echo "Ruta de la clave privada: $private_key<br>";
+
 $key_content = file_get_contents($private_key);
 if ($key_content === false) {
-    exit('Error al leer la clave privada.<br>');
+    $error = error_get_last();
+    echo "Error al leer la clave privada: " . $error['message'] . "<br>";
+    exit();
 } else {
-    echo "Clave privada leída correctamente:<br><pre>" . htmlspecialchars($key_content) . "</pre><br>";
+    echo "Contenido de la clave privada:<br>";
+    echo "<pre>" . htmlspecialchars($key_content) . "</pre><br>";
 }
-?>
