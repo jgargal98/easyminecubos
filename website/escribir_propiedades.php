@@ -27,11 +27,18 @@ $port = 22; // Puerto por defecto para SSH
 $username = 'ec2-user';
 $private_key = '/home/ec2-user/easyminecubos-servermc.pem'; // Ruta a tu clave privada
 
-echo "Iniciando script...<br>";
+echo "Preparando la clave privada...<br>";
 
 // Leer la clave privada
 $key = new RSA();
-if (!$key->load(file_get_contents($private_key))) {
+$key_content = file_get_contents($private_key);
+if ($key_content === false) {
+    exit('Error al leer la clave privada.<br>');
+} else {
+    echo "Clave privada leída correctamente.<br>";
+}
+
+if (!$key->load($key_content)) {
     exit('Error al cargar la clave privada.<br>');
 }
 echo "Clave privada cargada correctamente.<br>";
