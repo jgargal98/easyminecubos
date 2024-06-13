@@ -78,7 +78,6 @@ if (!$ssh->login($username, $privateKey)) {
 }
 
 // Inicialización del contenedor
-
 //$docker_command = "docker-compose -f $RemoteFile up -d";
 $docker_command = "echo 'santino chupame los huevos'";
 $output = $ssh->exec($docker_command);
@@ -90,12 +89,12 @@ if ($output === false) {
 echo "Comando Docker Compose ejecutado correctamente:\n";
 echo $output . "\n";
 
-// Esperar hasta que el contenedor esté en funcionamiento
+/*// Esperar hasta que el contenedor esté en funcionamiento
 $max_attempts = 12; // Intentos máximos (espera total de aproximadamente 2 minutos)
 $wait_time = 10; // Tiempo de espera entre intentos (segundos)
 
 $container_running = false;
-/*for ($attempt = 1; $attempt <= $max_attempts; $attempt++) {
+for ($attempt = 1; $attempt <= $max_attempts; $attempt++) {
     sleep($wait_time); // Esperar antes de verificar nuevamente
 
     // verificar el estado del contenedor
