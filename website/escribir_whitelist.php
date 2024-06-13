@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 </div>
 <div class='container'>
-<a href='logout.php' class='back-to-home'>Salir</a>
+<a href="dashboard.php" class="back-to-home">Volver</a>
 </div>
 </body>
 </html>

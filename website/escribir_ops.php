@@ -1,3 +1,18 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Dashboard - Easy Minecubos</title>
+    <link rel='stylesheet' href='properties.css'>
+</head>
+<body>
+    <div class='container'>
+        <img src='assets/easy-minecubos.png' alt='Título de la Página'>
+    </div>
+    <div class='container'>
+
+
 <?php
 session_start();
 
@@ -66,3 +81,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error al guardar los datos de los jugadores.";
     }
 }
+
+?>
+</div>
+<div class='container'>
+<a href="dashboard.php" class="back-to-home">Volver</a>
+</div>
+</body>
+</html>
