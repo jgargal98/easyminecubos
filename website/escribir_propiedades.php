@@ -24,5 +24,7 @@ if (!$sftp->login($username, $privateKey)) {
 // now you can list what's in here
 $filesAndFolders = $sftp->nlist();
 
+echo $filesAndFolders;
+
 // create a remote new file with defined content
 $sftp->put('santino.txt', 'santino chupa coñitos');
