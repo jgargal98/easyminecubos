@@ -2,7 +2,8 @@
 // Verificar si se han enviado datos desde el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Ruta al archivo JSON
-    $jsonFile = 'jugadores.json';
+    $user = $_SESSION['usuario'];
+    $jsonFile = "../propiedades/$user-ops.json";
 
     // Leer y decodificar el JSON existente si existe
     $jugadores = array();
