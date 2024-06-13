@@ -30,7 +30,7 @@ if (isset($_SESSION['usuario'])){
         }
 
         if (!empty($jugadores)) {
-            echo '<form action="procesar_formulario.php" method="post">';
+            echo '<form action="escribir_ops.php" method="post">';
             echo '<div class="existing-players">';
             echo '<h3>Jugadores existentes:</h3>';
             echo '<ul>';
@@ -65,7 +65,7 @@ if (isset($_SESSION['usuario'])){
             
             <button type="submit" name="añadirJugador" class="minecraft-button">Añadir Jugador</button>
         </form>
-        
+
 <?php
 }
 else
