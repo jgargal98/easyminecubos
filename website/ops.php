@@ -50,7 +50,7 @@ if (isset($_SESSION['usuario'])){
 ?>
 
         <!-- Formulario para añadir nuevo jugador -->
-        <form action="procesar_formulario.php" method="post" class="signup-form">
+        <form action="escribir_ops.php" method="post" class="signup-form">
             <h3>Añadir Nuevo Jugador</h3>
             <label for="name">Nombre:</label><br>
             <input type="text" id="name" name="name" required><br><br>
