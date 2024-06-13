@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Verificar si se han enviado datos desde el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Ruta al archivo JSON
