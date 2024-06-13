@@ -21,10 +21,5 @@ if (!$sftp->login($username, $privateKey)) {
     throw new Exception('sFTP login failed');
 }
 
-// now you can list what's in here
-$filesAndFolders = $sftp->nlist();
-
-echo $filesAndFolders;
-
 // create a remote new file with defined content
-$sftp->put('santino.txt', 'santino chupa coñitos');
+$sftp->put('santino.txt', 'santino chupa');
