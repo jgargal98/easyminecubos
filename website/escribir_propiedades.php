@@ -89,46 +89,6 @@ if ($output === false) {
 echo "Comando Docker Compose ejecutado correctamente:\n";
 echo $output . "\n";
 
-// HTML para el indicador de carga básico
-    echo <<<HTML
-        <!DOCTYPE html>
-        <html lang="es">
-        <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Cargando...</title>
-        <style>
-        /* Estilos para el indicador de carga */
-        .loading-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .loading-spinner {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #3498db;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        </style>
-        </head>
-        <body>
-        <div class="loading-container">
-            <div class="loading-spinner"></div>
-        </div>
-        </body>
-        </html>
-    HTML;
-
 // Esperar hasta que el contenedor esté en funcionamiento
 $max_attempts = 12; // Intentos máximos (espera total de aproximadamente 2 minutos)
 $wait_time = 10; // Tiempo de espera entre intentos (segundos)
