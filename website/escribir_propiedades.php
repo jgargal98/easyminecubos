@@ -10,23 +10,11 @@ session_start();
 //CREACION DEL DOCKER COMPOSE
 
 $user = $_SESSION['usuario'];
-$directory = "/var/www/dockercomposes/";
-$file = $directory . $user . "-docker-compose.yml";
+$directory = "/var/www/properties/";
+$file = $directory . $user . ".properties";
 
 // Contenido de Docker Compose
 $container_name = $user . "-server";
-$docker_compose_content = "
-version: '3.8'
-services:
-    minecraft_server:
-        build:
-            context: .
-            dockerfile: easy-minecubos
-        container_name: $container_name
-        ports:
-            - '25565:25565'
-        environment:
-";
 
 // Construir el contenido basado en POST
 foreach ($_POST as $key => $value) {
@@ -62,7 +50,7 @@ if (!$sftp->login($username, $privateKey)) {
 // Envío del archivo
 // Ruta del archivo local y destino remoto
 $LocalFile = $file;
-$RemoteFile = "/home/ec2-user/docker/" . $user . "-docker-compose.yml";
+$RemoteFile = "/home/ec2-user/docker/" . $user . ".properties";
 
 if (!$sftp->put($RemoteFile, $LocalFile, SFTP::SOURCE_LOCAL_FILE)) {
     throw new Exception('Error al copiar archivo al servidor remoto');
