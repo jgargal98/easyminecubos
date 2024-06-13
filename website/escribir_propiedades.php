@@ -21,12 +21,11 @@ session_start();
 
 $user = $_SESSION['usuario'];
 
-
 $file ="/var/www/dockercomposes/" . $user . "-docker-compose.yml";
 
 // Ruta del archivo local y destino remoto
-$local_file = $file;
-$remote_file = "/home/ec2-user/docker/" . $user . "-docker-compose.yml";
+$localFile = $file;
+$remoteFile = "/home/ec2-user/docker/" . $user . "-docker-compose.yml";
 
 if (!file_exists("$file")) {
     touch("$file");
@@ -65,20 +64,10 @@ if (file_put_contents($file, $docker_compose_content) !== false) {
 
     // Crear una instancia de SCP
     $scp = new SCP($ssh);
-
-    // Ruta del archivo local y destino en el servidor remoto
-    $localFile = 'path/to/local/file.txt';
-    $remoteFile = 'path/to/remote/file.txt';
-
     // Transferir el archivo
     if ($scp->put($remoteFile, file_get_contents($localFile))) {
         echo "Archivo transferido correctamente.\n";
     } else {
         echo "Error al transferir el archivo.\n";
     }
-
-}else {
-    // Si hay un error, captura el mensaje de error
-    $error = error_get_last();
-    echo "Error al generar el archivo $file: " . $error['message'];
 }
