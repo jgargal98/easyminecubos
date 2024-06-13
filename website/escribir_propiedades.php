@@ -77,18 +77,21 @@ if (!$ssh->login($username, $privateKey)) {
     throw new Exception('SSH login failed');
 }
 
-// Inicialización del contenedor
-//$docker_command = "docker-compose -f $RemoteFile up -d";
-$docker_command = "echo 'santino chupame los huevos'";
-$output = $ssh->exec($docker_command);
-
-if ($output === false) {
-    throw new Exception('Error al ejecutar comando Docker Compose');
+// login via ssh
+if (!$ssh->login($username, $privateKey)) {
+    throw new Exception('SSH login failed');
 }
 
-echo "Comando Docker Compose ejecutado correctamente:\n";
-echo $output . "\n";
+// execute echo command to test SSH command execution
+$command = "echo 'SSH command executed successfully'";
+$output = $ssh->exec($command);
 
+if ($output === false) {
+    throw new Exception('Error al ejecutar comando SSH');
+}
+
+echo "Respuesta del comando SSH:\n";
+echo $output . "\n";
 /*// Esperar hasta que el contenedor esté en funcionamiento
 $max_attempts = 12; // Intentos máximos (espera total de aproximadamente 2 minutos)
 $wait_time = 10; // Tiempo de espera entre intentos (segundos)
