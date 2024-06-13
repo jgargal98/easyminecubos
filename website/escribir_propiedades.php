@@ -1,8 +1,6 @@
 <?php
 require 'vendor/autoload.php'; // Autoload de Composer
 
-include('Crypt/RSA.php');
-
 use phpseclib3\Net\SSH2;
 use phpseclib3\Crypt\RSA;
 
@@ -16,12 +14,12 @@ $private_key = '/home/ec2-user/easyminecubos-servermc.pem'; // Ruta a tu clave p
 $passphrase = null; // Si tu clave tiene una frase de paso, añádela aquí
 
 try {
-    // Crear una instancia de SSH2
-    $ssh = new SSH2($host, $port);
-
-    // Leer la clave privada y cargarla en RSA
+    // Leer la clave privada
     $key = new RSA();
     $key->loadKey(file_get_contents($private_key));
+
+    // Crear una instancia de SSH2
+    $ssh = new SSH2($host, $port);
 
     // Intentar autenticarse con la clave privada
     if ($ssh->login($username, $key)) {
@@ -32,3 +30,4 @@ try {
 } catch (Exception $e) {
     echo 'Error: ' . $e->getMessage();
 }
+?>
