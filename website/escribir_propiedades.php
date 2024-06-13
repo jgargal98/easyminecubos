@@ -7,36 +7,53 @@ use phpseclib3\Net\SSH2;
 use phpseclib3\Crypt\RSA;
 use phpseclib3\Net\SCP;
 
+// Datos de conexión
 $host = '34.202.66.61';
 $port = 22; // Puerto por defecto para SSH
 $username = 'ec2-user';
 $private_key = '/home/ec2-user/easyminecubos-servermc.pem'; // Ruta a tu clave privada
-$passphrase = null; // Si tu clave tiene una frase de paso, añádela aquí
+
+echo "Iniciando script...<br>";
 
 // Leer la clave privada
 $key = new RSA();
 if (!$key->load(file_get_contents($private_key))) {
     exit('Error al cargar la clave privada.');
 }
+echo "Clave privada cargada correctamente.<br>";
 
 session_start();
 
+if (!isset($_SESSION['usuario'])) {
+    exit('No se ha establecido una sesión de usuario.');
+}
+
 $user = $_SESSION['usuario'];
+echo "Usuario de la sesión: $user<br>";
 
 $file = "/var/www/dockercomposes/" . $user . "-docker-compose.yml";
+echo "Ruta del archivo local: $file<br>";
 
 // Ruta del archivo local y destino remoto
 $localFile = $file;
 $remoteFile = "/home/ec2-user/docker/" . $user . "-docker-compose.yml";
+echo "Ruta del archivo remoto: $remoteFile<br>";
 
 if (!file_exists($file)) {
-    touch($file);
+    if (touch($file)) {
+        echo "Archivo creado: $file<br>";
+    } else {
+        exit("Error al crear el archivo: $file");
+    }
+} else {
+    echo "Archivo ya existe: $file<br>";
 }
 
 $fp = fopen($file, "w");
 if (!$fp) {
     exit("Error al abrir el archivo para escritura.");
 }
+echo "Archivo abierto para escritura: $file<br>";
 
 $container_name = $user . "-server";
 
@@ -58,28 +75,35 @@ foreach ($_POST as $key => $value) {
 }
 
 if (fwrite($fp, $docker_compose_content) === false) {
+    fclose($fp);
     exit("Error al escribir en el archivo.");
 }
-
 fclose($fp);
-echo "Archivo $file generado correctamente.<br>";
+echo "Archivo escrito correctamente: $file<br>";
 
 // Crear una instancia de SSH2
 $ssh = new SSH2($host, $port);
+if (!$ssh) {
+    exit("No se pudo crear la instancia de SSH.");
+}
+
+echo "Instancia de SSH creada.<br>";
 
 if (!$ssh->login($username, $key)) {
     exit('Fallo al iniciar sesión en SSH.');
 }
-
 echo "Conexión SSH establecida.<br>";
 
 // Crear una instancia de SCP
 $scp = new SCP($ssh);
+if (!$scp) {
+    exit("No se pudo crear la instancia de SCP.");
+}
+echo "Instancia de SCP creada.<br>";
+
 // Transferir el archivo
 if ($scp->put($remoteFile, file_get_contents($localFile))) {
     echo "Archivo transferido correctamente.<br>";
 } else {
     echo "Error al transferir el archivo.<br>";
 }
-
-?>
