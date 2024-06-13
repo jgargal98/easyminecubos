@@ -3,16 +3,12 @@ session_start();
 
 // Verificar si se han enviado datos desde el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Ruta al archivo JSON basado en la sesión del usuario
-    if (isset($_SESSION['usuario'])) {
-        $user = $_SESSION['usuario'];
-        $jsonFile = "../propiedades/{$user}-ops.json";
-    } else {
-        die("Error: No se ha iniciado sesión.");
-    }
+    // Ruta al archivo JSON
+    $user = $_SESSION['usuario'];
+    $jsonFile = "../propiedades/$user-ops.json";
 
     // Leer y decodificar el JSON existente si existe
-    $jugadores = [];
+    $jugadores = array();
     if (file_exists($jsonFile)) {
         $jsonData = file_get_contents($jsonFile);
         $jugadores = json_decode($jsonData, true);
@@ -23,31 +19,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Inicializar el array de jugadores si está vacío o no existe
-    if (!isset($jugadores['jugadores']) || !is_array($jugadores['jugadores'])) {
-        $jugadores['jugadores'] = [];
+    if (!isset($jugadores[0]) || !is_array($jugadores[0])) {
+        $jugadores = array(
+            array(
+                "uuid" => "28a9e89d-da64-427d-a920-5324a8bad0d6",
+                "name" => "camperosintomate",
+                "level" => 4,
+                "bypassesPlayerLimit" => false
+            )
+        );
     }
 
-    // Procesar la eliminación de jugadores si se han marcado checkboxes
+    // Procesar la eliminación de jugadores
     if (isset($_POST['eliminar']) && is_array($_POST['eliminar'])) {
-        foreach ($_POST['eliminar'] as $indice) {
-            // Verificar si el índice existe y eliminar el jugador correspondiente
-            if (isset($jugadores['jugadores'][$indice])) {
-                unset($jugadores['jugadores'][$indice]);
+        foreach ($_POST['eliminar'] as $nombreEliminar) {
+            // Buscar y eliminar al jugador por nombre
+            foreach ($jugadores as $indice => $jugador) {
+                if ($jugador['name'] === $nombreEliminar) {
+                    unset($jugadores[$indice]);
+                    break;
+                }
             }
         }
         // Reindexar el array después de eliminar elementos
-        $jugadores['jugadores'] = array_values($jugadores['jugadores']);
+        $jugadores = array_values($jugadores);
     }
 
-    // Procesar la adición de un nuevo jugador si se han proporcionado los datos
+    // Procesar la adición de un nuevo jugador
     if (isset($_POST["name"], $_POST["level"])) {
-        $nuevoJugador = [
-            "name" => htmlspecialchars($_POST["name"]), // Sanitizar el nombre del jugador
-            "level" => intval($_POST["level"]) // Convertir nivel a entero
-        ];
+        $nuevoJugador = array(
+            "name" => $_POST["name"],
+            "level" => intval($_POST["level"]) // Convertir a entero
+        );
 
         // Añadir el nuevo jugador al array de jugadores
-        $jugadores['jugadores'][] = $nuevoJugador;
+        $jugadores[] = $nuevoJugador;
     }
 
     // Convertir nuevamente el array a JSON
