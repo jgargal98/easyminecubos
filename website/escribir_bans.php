@@ -3,44 +3,44 @@ session_start();
 
 // Verificar si se han enviado datos desde el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Ruta al archivo JSON
+    // Ruta al archivo JSON de jugadores baneados
     $user = $_SESSION['usuario'];
-    $jsonFile = "../propiedades/$user-banned-players.json";
+    $jsonFile = "../propiedades/$user-baneados.json";
 
     // Leer y decodificar el JSON existente si existe
-    $jugadores = array();
+    $jugadoresBaneados = array();
     if (file_exists($jsonFile)) {
         $jsonData = file_get_contents($jsonFile);
-        $jugadores = json_decode($jsonData, true);
+        $jugadoresBaneados = json_decode($jsonData, true);
 
-        if ($jugadores === null || json_last_error() !== JSON_ERROR_NONE) {
-            die("Error al leer el archivo JSON.");
+        if ($jugadoresBaneados === null || json_last_error() !== JSON_ERROR_NONE) {
+            die("Error al leer el archivo JSON de jugadores baneados.");
         }
     }
 
-    // Inicializar el array de jugadores si está vacío o no existe
-    if (!isset($jugadores['jugadores']) || !is_array($jugadores['jugadores'])) {
-        $jugadores['jugadores'] = array();
+    // Inicializar el array de jugadores baneados si está vacío o no existe
+    if (!is_array($jugadoresBaneados)) {
+        $jugadoresBaneados = array();
     }
 
-    // Procesar la eliminación de jugadores
+    // Procesar la eliminación de jugadores baneados
     if (isset($_POST['eliminar']) && is_array($_POST['eliminar'])) {
         foreach ($_POST['eliminar'] as $nombreEliminar) {
-            // Buscar y eliminar al jugador por nombre
-            foreach ($jugadores['jugadores'] as $indice => $jugador) {
-                if ($jugador['name'] === $nombreEliminar) {
-                    unset($jugadores['jugadores'][$indice]);
+            // Buscar y eliminar al jugador baneado por nombre
+            foreach ($jugadoresBaneados as $indice => $jugadorBaneado) {
+                if ($jugadorBaneado['name'] === $nombreEliminar) {
+                    unset($jugadoresBaneados[$indice]);
                     break;
                 }
             }
         }
         // Reindexar el array después de eliminar elementos
-        $jugadores['jugadores'] = array_values($jugadores['jugadores']);
+        $jugadoresBaneados = array_values($jugadoresBaneados);
     }
 
     // Procesar la adición de un nuevo jugador baneado
-    if (isset($_POST["name"], $_POST["expires"], $_POST["reason"])) {
-        $nuevoJugador = array(
+    if (isset($_POST["name"], $_POST["reason"])) {
+        $nuevoJugadorBaneado = array(
             "name" => $_POST["name"],
             "created" => date('Y-m-d H:i:s O'),
             "source" => "Server",
@@ -48,17 +48,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "reason" => $_POST["reason"]
         );
 
-        // Añadir el nuevo jugador al array de jugadores
-        $jugadores['jugadores'][] = $nuevoJugador;
+        // Añadir el nuevo jugador baneado al array de jugadores baneados
+        $jugadoresBaneados[] = $nuevoJugadorBaneado;
     }
 
     // Convertir nuevamente el array a JSON
-    $nuevoJsonData = json_encode($jugadores, JSON_PRETTY_PRINT);
+    $nuevoJsonData = json_encode($jugadoresBaneados, JSON_PRETTY_PRINT);
 
     // Guardar el JSON actualizado de vuelta en el archivo
     if (file_put_contents($jsonFile, $nuevoJsonData)) {
-        echo "Los datos de los jugadores han sido actualizados correctamente.";
+        echo "Los datos de los jugadores baneados han sido actualizados correctamente.";
     } else {
-        echo "Error al guardar los datos de los jugadores.";
+        echo "Error al guardar los datos de los jugadores baneados.";
     }
 }
