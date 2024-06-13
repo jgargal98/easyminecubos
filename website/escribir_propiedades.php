@@ -68,3 +68,19 @@ if (!$sftp->put($RemoteFile, $LocalFile, SFTP::SOURCE_LOCAL_FILE)) {
 }
 
 echo "Archivo '$LocalFile' copiado correctamente a '$RemoteFile' en el servidor remoto.<br><br><br>";
+
+// login via ssh
+if (!$ssh->login($username, $privateKey)) {
+    throw new Exception('SSH login failed');
+}
+
+// execute echo command to test SSH command execution
+$command = "echo 'SSH command executed successfully'";
+$output = $ssh->exec($command);
+
+if ($output === false) {
+    throw new Exception('Error al ejecutar comando SSH');
+}
+
+echo "Respuesta del comando SSH:\n";
+echo $output . "\n";
