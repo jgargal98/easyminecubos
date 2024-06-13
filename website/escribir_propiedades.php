@@ -4,7 +4,6 @@ include "../inc/dbinfo.inc";
 require 'vendor/autoload.php'; // Autoload de Composer
 
 use phpseclib3\Net\SSH2;
-use phpseclib3\Crypt\RSA;
 use phpseclib3\Net\SCP;
 
 error_reporting(E_ALL);
@@ -16,45 +15,46 @@ $username = 'ec2-user';
 $private_key = '/home/ec2-user/easyminecubos-servermc.pem'; // Ruta a tu clave privada
 $passphrase = null; // Si tu clave tiene una frase de paso, añádela aquí
 
-// Leer la clave privada
-$key = new RSA();
-$key->loadkey(file_get_contents($private_key));
-
 session_start();
 
 $user = $_SESSION['usuario'];
 
-$file ="/var/www/dockercomposes/" . $user . "-docker-compose.yml";
+$file = "/var/www/dockercomposes/" . $user . "-docker-compose.yml";
 $directory = "/var/www/dockercomposes/";
 
 // Ruta del archivo local y destino remoto
 $localFile = $file;
 $remoteFile = "/home/ec2-user/docker/" . $user . "-docker-compose.yml";
 
-if (!is_dir($directory)) {
-    if (!mkdir($directory, 0777, true)) {
-        die('Error al crear directorio...');
+try {
+    // Verificar si el directorio existe o crearlo
+    if (!is_dir($directory)) {
+        if (!mkdir($directory, 0777, true)) {
+            throw new Exception('Error al crear directorio...');
+        }
     }
-}
 
-// Verificar si el archivo ya existe
-if (!file_exists($file)) {
-    // Intentar crear el archivo
-    if (!touch($file)) {
-        die('Error al crear archivo...');
+    // Verificar si el archivo existe o crearlo
+    if (!file_exists($file)) {
+        if (!touch($file)) {
+            throw new Exception('Error al crear archivo...');
+        }
     }
-}
 
-// Verificar si el archivo se creó correctamente
-if (!file_exists($file)) {
-    die('El archivo no se creó correctamente...');
-}
+    // Leer la clave privada
+    $key_content = file_get_contents($private_key);
 
-fopen("$file", "w");
+    // Crear una instancia de SSH2
+    $ssh = new SSH2($host, $port);
 
-$container_name = $user . "-server";
+    // Intentar autenticarse con la clave privada
+    if (!$ssh->login($username, new \phpseclib3\Crypt\RSA($key_content))) {
+        throw new Exception('Login SSH fallido');
+    }
 
-$docker_compose_content = "
+    // Contenido de Docker Compose
+    $container_name = $user . "-server";
+    $docker_compose_content = "
 version: '3.8'
 services:
     minecraft_server:
@@ -66,30 +66,29 @@ services:
         environment:
 ";
 
-foreach ($_POST as $key => $value) {
-    $value = preg_replace("/[^a-zA-Z0-9\s]/", "", $value);
-    $docker_compose_content .= "            - $key = $value\n";
-}
+    // Construir el contenido basado en POST
+    foreach ($_POST as $key => $value) {
+        $value = preg_replace("/[^a-zA-Z0-9\s]/", "", $value);
+        $docker_compose_content .= "            - $key = $value\n";
+    }
 
-if (file_put_contents($file, $docker_compose_content) !== false) {
+    // Escribir contenido en el archivo Docker Compose
+    if (file_put_contents($file, $docker_compose_content) === false) {
+        throw new Exception("Error al escribir en el archivo $file");
+    }
+
     echo "Archivo $file generado correctamente.<br>";
 
-    try {
-        // Intenta realizar la conexión SSH
-        $ssh = new SSH2($host, $port);
-    
-        if (!$ssh->login($username, $key)) {
-            throw new Exception('Login SSH fallido');
-        }
-    
-        // Intenta transferir el archivo usando SCP
-        $scp = new SCP($ssh);
-        if ($scp->put($remoteFile, file_get_contents($localFile))) {
-            echo "Archivo transferido correctamente.\n";
-        } else {
-            throw new Exception('Error al transferir el archivo mediante SCP');
-        }
-    } catch (Exception $e) {
-        echo 'Error: ' . $e->getMessage();
+    // Crear una instancia de SCP
+    $scp = new SCP($ssh);
+
+    // Transferir el archivo Docker Compose al servidor remoto
+    if ($scp->put($remoteFile, file_get_contents($localFile))) {
+        echo "Archivo transferido correctamente.\n";
+    } else {
+        throw new Exception('Error al transferir el archivo mediante SCP');
     }
+} catch (Exception $e) {
+    echo 'Error: ' . $e->getMessage();
 }
+?>
