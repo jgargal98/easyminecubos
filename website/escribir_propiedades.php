@@ -13,13 +13,10 @@ $user = $_SESSION['usuario'];
 $directory = "/var/www/propiedades/";
 $file = $directory . $user . ".properties";
 
-// Contenido de Docker Compose
-$container_name = $user . "-server";
-
 // Construir el contenido basado en POST
 foreach ($_POST as $key => $value) {
     $value = preg_replace("/[^a-zA-Z0-9\s]/", "", $value);
-    $docker_compose_content .= "            - $key = $value\n";
+    $docker_compose_content .= "$key=$value\n";
 }
 
 // Escribir contenido en el archivo Docker Compose
@@ -47,7 +44,7 @@ if (!$sftp->login($username, $privateKey)) {
 // Envío del archivo
 // Ruta del archivo local y destino remoto
 $LocalFile = $file;
-$RemoteFile = "/home/ec2-user/docker/" . $user . ".properties";
+$RemoteFile = "/home/ec2-user/properties/" . $user . ".properties";
 
 if (!$sftp->put($RemoteFile, $LocalFile, SFTP::SOURCE_LOCAL_FILE)) {
     throw new Exception('Error al copiar archivo al servidor remoto');
@@ -64,7 +61,7 @@ if (!$ssh->login($username, $privateKey)) {
 }
 
 // execute echo command to test SSH command execution
-$command = "./hello_world.sh";
+$command = "./hello_world.sh $user";
 $output = $ssh->exec($command);
 
 if ($output === false) {

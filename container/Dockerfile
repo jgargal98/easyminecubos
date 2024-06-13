@@ -12,8 +12,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copiar el script y otros archivos necesarios
-COPY run_server.sh /minecraft/
-COPY env.txt /minecraft/
+COPY docker/entrypoint.sh /minecraft/
 
 # Descargar el archivo del servidor de Minecraft
 RUN wget --no-cache -O server.jar https://piston-data.mojang.com/v1/objects/4fb536bfd4a83d61cdbaf684b8d311e66e7d4c49/server.jar
@@ -21,7 +20,7 @@ RUN wget --no-cache -O server.jar https://piston-data.mojang.com/v1/objects/4fb5
 RUN echo "eula=true" > eula.txt
 
 # Cambiar permisos y ejecutar el script
-RUN chmod +x /minecraft/create_properties.sh
+RUN chmod +x /minecraft/entrypoint.sh
 
 # Ejecutar el script al inicio del contenedor
-CMD ["./run_server.sh"]
+CMD ["/minecraft/entrypoint.sh"]
