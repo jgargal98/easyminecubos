@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         foreach ($_POST['eliminar'] as $nombreEliminar) {
             // Buscar y eliminar al jugador por nombre
             foreach ($jugadores['jugadores'] as $indice => $jugador) {
-                if ($jugador['nombre'] === $nombreEliminar) {
+                if ($jugador['name'] === $nombreEliminar) {
                     unset($jugadores['jugadores'][$indice]);
                     break;
                 }
@@ -36,11 +36,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Procesar la adición de un nuevo jugador
-    if (isset($_POST["nombre"], $_POST["edad"], $_POST["nivel"])) {
+    if (isset($_POST["name"], $_POST["level"])) {
         $nuevoJugador = array(
-            "nombre" => $_POST["nombre"],
-            "edad" => intval($_POST["edad"]), // Convertir a entero
-            "nivel" => intval($_POST["nivel"]) // Convertir a entero
+            "name" => $_POST["name"],
+            "level" => intval($_POST["level"]) // Convertir a entero
         );
 
         // Añadir el nuevo jugador al array de jugadores

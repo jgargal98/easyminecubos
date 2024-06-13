@@ -37,7 +37,7 @@ if (isset($_SESSION['usuario'])){
         }
     
         // Mostrar el formulario para añadir un nuevo jugador
-        echo '<form action="procesar_formulario.php" method="post">';
+        echo '<form action="escribir_ops.php" method="post">';
         echo '<h3>Añadir Jugador</h3>';
         echo '<label for="name">Nombre:</label>';
         echo '<input type="text" id="name" name="name" required><br><br>';
