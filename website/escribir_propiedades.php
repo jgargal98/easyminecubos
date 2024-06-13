@@ -25,7 +25,7 @@ services:
         ports:
             - '25565:25565'
         environment:
-    ";
+";
 
 // Construir el contenido basado en POST
 foreach ($_POST as $key => $value) {
