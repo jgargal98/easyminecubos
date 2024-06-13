@@ -38,7 +38,7 @@ if (file_put_contents($file, $docker_compose_content) === false) {
     throw new Exception("Error al escribir en el archivo $file");
 }
 
-//echo "Archivo $file generado correctamente.<br>";
+echo "Archivo $file generado correctamente.<br>";
 
 
 
@@ -67,7 +67,7 @@ if (!$sftp->put($RemoteFile, $LocalFile, SFTP::SOURCE_LOCAL_FILE)) {
     throw new Exception('Error al copiar archivo al servidor remoto');
 }
 
-//echo "Archivo '$LocalFile' copiado correctamente a '$RemoteFile' en el servidor remoto.<br><br><br>";
+echo "Archivo '$LocalFile' copiado correctamente a '$RemoteFile' en el servidor remoto.<br><br><br>";
 
 
 //EJECUCIÓN DEL CONTENEDOR
