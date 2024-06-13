@@ -77,18 +77,83 @@ if (!$ssh->login($username, $privateKey)) {
     throw new Exception('SSH login failed');
 }
 
-// Ejecutar el comando docker-compose
-//$command = "docker-compose -f $remote_file up -d";
+// Inicialización del contenedor
 
-$command = "echo 'Hola, mundo!'";
-$output = $ssh->exec($command);
+$docker_command = "docker-compose -f $RemoteFile up -d";
+$output = $ssh->exec($docker_command);
 
-if (!$ssh->exec($command)) {
-    throw new Exception('Error al ejecutar comando SSH');
-}
 if ($output === false) {
-    throw new Exception('Error al ejecutar comando SSH');
+    throw new Exception('Error al ejecutar comando Docker Compose');
 }
 
-echo "Respuesta del comando SSH:<br>";
-echo $output . "<br>";
+echo "Comando Docker Compose ejecutado correctamente:\n";
+echo $output . "\n";
+
+// HTML para el indicador de carga básico
+    echo <<<HTML
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cargando...</title>
+        <style>
+        /* Estilos para el indicador de carga */
+        .loading-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .loading-spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        </style>
+        </head>
+        <body>
+        <div class="loading-container">
+            <div class="loading-spinner"></div>
+        </div>
+        </body>
+        </html>
+    HTML;
+
+// Esperar hasta que el contenedor esté en funcionamiento
+$max_attempts = 12; // Intentos máximos (espera total de aproximadamente 2 minutos)
+$wait_time = 10; // Tiempo de espera entre intentos (segundos)
+
+$container_running = false;
+for ($attempt = 1; $attempt <= $max_attempts; $attempt++) {
+    sleep($wait_time); // Esperar antes de verificar nuevamente
+
+    // verificar el estado del contenedor
+    $check_command = "docker ps --filter name=$container_name --format '{{.Status}}'";
+    $status_output = $ssh->exec($check_command);
+
+    if ($status_output === false) {
+        throw new Exception('Error al verificar estado del contenedor');
+    }
+
+    // verificar si el contenedor está corriendo
+    if (strpos($status_output, 'Up') !== false) {
+        $container_running = true;
+        break;
+    }
+}
+
+if (!$container_running) {
+    throw new Exception("El contenedor '$container_name' no pudo ponerse en funcionamiento después de $max_attempts intentos.");
+}else {
+    echo "El contenedor '$container_name' está en funcionamiento.<br>Conéctate: 34.202.66.61:25565";
+}
