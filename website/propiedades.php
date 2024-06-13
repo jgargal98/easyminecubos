@@ -109,7 +109,7 @@ else
 ?>
 
         </div>
-        <a href='logout.php' class='back-to-home'>Salir</a>
+        <a href="dashboard.php" class="back-to-home">volver</a>
     </div>
 </body>
 </html>
