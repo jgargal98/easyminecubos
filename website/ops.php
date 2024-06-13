@@ -21,14 +21,43 @@ if (isset($_SESSION['usuario'])){
     $jsonFile = "../propiedades/$user-ops.json";
 
     // Verificar si existe el archivo JSON y si tiene datos
+    // Verificar si existe el archivo JSON y si tiene datos
+    $jugadores = array();
     if (file_exists($jsonFile)) {
         $jsonData = file_get_contents($jsonFile);
         $jugadores = json_decode($jsonData, true);
 
-        if ($jugadores !== null && json_last_error() === JSON_ERROR_NONE && isset($jugadores['jugadores']) && is_array($jugadores['jugadores'])) {
+        if ($jugadores === null || json_last_error() !== JSON_ERROR_NONE) {
+            die("Error al leer el archivo JSON.");
+        }
+    }
+
+    // Inicializar el array de jugadores si está vacío o no existe
+    if (!isset($jugadores['jugadores']) || !is_array($jugadores['jugadores'])) {
+        $jugadores['jugadores'] = array();
+        }
+
+        // Mostrar el formulario para añadir un nuevo jugador
+        echo '<form action="escribir_ops.php" method="post">';
+        echo '<h3>Añadir Jugador</h3>';
+        echo '<label for="nombre">Nombre:</label>';
+        echo '<input type="text" id="nombre" name="nombre" required><br><br>';
+
+        echo '<label for="edad">Edad:</label>';
+        echo '<input type="number" id="edad" name="edad" required><br><br>';
+
+        echo '<label for="nivel">Nivel:</label>';
+        echo '<input type="number" id="nivel" name="nivel" required><br><br>';
+
+        echo '<input type="submit" value="Guardar">';
+        echo '</form>';
+
+        // Mostrar los jugadores existentes si hay alguno
+        if (!empty($jugadores['jugadores'])) {
             echo '<h3>Jugadores existentes:</h3>';
             echo '<form action="procesar_formulario.php" method="post">';
             echo '<ul>';
+            
             foreach ($jugadores['jugadores'] as $jugador) {
                 echo '<li>';
                 echo '<input type="checkbox" name="eliminar[]" value="' . htmlspecialchars($jugador['nombre']) . '"> Eliminar ';
@@ -36,20 +65,8 @@ if (isset($_SESSION['usuario'])){
                 echo '</li>';
             }
             echo '</ul>';
-            
-            echo '<h3>Añadir Jugador</h3>';
-            echo '<label for="nombre">Nombre:</label>';
-            echo '<input type="text" id="nombre" name="nombre" required><br><br>';
-            
-            echo '<label for="edad">Edad:</label>';
-            echo '<input type="number" id="edad" name="edad" required><br><br>';
-            
-            echo '<label for="nivel">Nivel:</label>';
-            echo '<input type="number" id="nivel" name="nivel" required><br><br>';
-            
-            echo '<input type="submit" value="Guardar">';
+            echo '<input type="submit" value="Eliminar Jugadores Seleccionados">';
             echo '</form>';
-        }
     }
 }
 else
