@@ -94,7 +94,7 @@ $max_attempts = 12; // Intentos máximos (espera total de aproximadamente 2 minu
 $wait_time = 10; // Tiempo de espera entre intentos (segundos)
 
 $container_running = false;
-for ($attempt = 1; $attempt <= $max_attempts; $attempt++) {
+/*for ($attempt = 1; $attempt <= $max_attempts; $attempt++) {
     sleep($wait_time); // Esperar antes de verificar nuevamente
 
     // verificar el estado del contenedor
