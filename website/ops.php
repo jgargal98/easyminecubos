@@ -58,7 +58,7 @@ if (isset($_SESSION['usuario'])) {
     echo '<option value="4">Nivel 4</option>';
     echo '</select><br><br>';
     
-    echo '<button type="submit" name="añadirJugador" class="minecraft-button">Añadir Jugador</button>';
+    echo '<button type="submit" name="añadirJugador" class="minecraft-button">Añadir operador</button>';
     echo '</form>';
 
 } else {
