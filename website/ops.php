@@ -27,7 +27,7 @@ if (isset($_SESSION['usuario'])) {
     }
 
     if (!empty($jugadores)) {
-        echo '<form action="escribir_ops.php" class="signup-form"> method="post">';
+        echo '<form action="escribir_ops.php" class="signup-form" method="post">';
         echo '<div class="existing-players">';
         echo '<h3>Jugadores existentes:</h3>';
         echo '<ul>';
