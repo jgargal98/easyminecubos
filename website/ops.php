@@ -16,64 +16,56 @@
 <?php
 session_start();
 
-if (isset($_SESSION['usuario'])){
+if (isset($_SESSION['usuario'])) {
     $user = $_SESSION['usuario'];
     $jsonFile = "../propiedades/$user-ops.json";
 
-        // Cargar el archivo JSON de jugadores si existe
-        $jsonFile = 'jugadores.json';
+    if (file_exists($jsonFile)) {
+        $jugadores = json_decode(file_get_contents($jsonFile), true);
+    } else {
         $jugadores = [];
+    }
 
-        if (file_exists($jsonFile)) {
-            $jsonContent = file_get_contents($jsonFile);
-            $jugadores = json_decode($jsonContent, true);
+    if (!empty($jugadores)) {
+        echo '<form action="escribir_ops.php" method="post">';
+        echo '<div class="existing-players">';
+        echo '<h3>Jugadores existentes:</h3>';
+        echo '<ul>';
+        
+        foreach ($jugadores as $index => $jugador) {
+            echo '<li>';
+            echo '<input type="checkbox" name="eliminar[]" value="' . $index . '">';
+            echo htmlspecialchars($jugador['name']) . ' (Nivel ' . $jugador['level'] . ')';
+            echo '</li>';
         }
+        
+        echo '</ul>';
+        echo '<button type="submit" name="eliminarJugadores" class="minecraft-button">Eliminar Jugadores</button>';
+        echo '</div>';
+        echo '</form>';
+    }
 
-        if (!empty($jugadores)) {
-            echo '<form action="escribir_ops.php" method="post">';
-            echo '<div class="existing-players">';
-            echo '<h3>Jugadores existentes:</h3>';
-            echo '<ul>';
-            
-            foreach ($jugadores as $index => $jugador) {
-                echo '<li>';
-                echo '<input type="checkbox" name="eliminar[]" value="' . $index . '">';
-                echo htmlspecialchars($jugador['name']) . ' (Nivel ' . $jugador['level'] . ')';
-                echo '</li>';
-            }
-            
-            echo '</ul>';
-            echo '<button type="submit" name="eliminarJugadores" class="minecraft-button">Eliminar Jugadores</button>';
-            echo '</div>';
-            echo '</form>';
-        }
+    echo '<form action="escribir_ops.php" method="post" class="signup-form">';
+    echo '<h3>Añadir Nuevo Jugador</h3>';
+    echo '<label for="name">Nombre:</label><br>';
+    echo '<input type="text" id="name" name="name" required><br><br>';
+    
+    echo '<label for="level">Nivel:</label><br>';
+    echo '<select id="level" name="level" class="minecraft-select">';
+    echo '<option value="1">Nivel 1</option>';
+    echo '<option value="2">Nivel 2</option>';
+    echo '<option value="3">Nivel 3</option>';
+    echo '<option value="4">Nivel 4</option>';
+    echo '</select><br><br>';
+    
+    echo '<button type="submit" name="añadirJugador" class="minecraft-button">Añadir Jugador</button>';
+    echo '</form>';
+
+} else {
+    echo '<p>No estás conectado.</p>';
+}
 ?>
 
-        <!-- Formulario para añadir nuevo jugador -->
-        <form action="escribir_ops.php" method="post" class="signup-form">
-            <h3>Añadir Nuevo Jugador</h3>
-            <label for="name">Nombre:</label><br>
-            <input type="text" id="name" name="name" required><br><br>
-            
-            <label for="level">Nivel:</label><br>
-            <select id="level" name="level" class="minecraft-select">
-                <option value="1">Nivel 1</option>
-                <option value="2">Nivel 2</option>
-                <option value="3">Nivel 3</option>
-                <option value="4">Nivel 4</option>
-            </select><br><br>
-            
-            <button type="submit" name="añadirJugador" class="minecraft-button">Añadir Jugador</button>
-        </form>
-
-<?php
-}
-else
-{
-  print '<p>No estas conectado.</p>';
-}
-
-?>
         </div>
         <a href='logout.php' class='back-to-home'>Salir</a>
     </div>
