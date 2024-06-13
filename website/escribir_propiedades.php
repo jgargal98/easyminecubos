@@ -18,7 +18,7 @@ $passphrase = null; // Si tu clave tiene una frase de paso, añádela aquí
 
 // Leer la clave privada
 $key = new RSA();
-$key->load(file_get_contents($private_key));
+$key->loadkey(file_get_contents($private_key));
 
 session_start();
 
