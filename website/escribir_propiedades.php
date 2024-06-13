@@ -69,6 +69,9 @@ if (!$sftp->put($RemoteFile, $LocalFile, SFTP::SOURCE_LOCAL_FILE)) {
 
 echo "Archivo '$LocalFile' copiado correctamente a '$RemoteFile' en el servidor remoto.<br><br><br>";
 
+// Crear nueva instancia de ssh
+$ssh = new SSH2($host);
+
 // login via ssh
 if (!$ssh->login($username, $privateKey)) {
     throw new Exception('SSH login failed');
