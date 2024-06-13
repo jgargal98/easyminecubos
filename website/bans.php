@@ -29,7 +29,7 @@ if (isset($_SESSION['usuario'])) {
     }
 
     if (!empty($jugadoresBaneados)) {
-        echo '<form action="escribir_baneados.php" method="post" class="signup-form">';
+        echo '<form action="escribir_bans.php" method="post" class="signup-form">';
         echo '<div class="existing-players">';
         echo '<h3>Jugadores Vetados:</h3>';
         echo '<ul>';
