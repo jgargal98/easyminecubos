@@ -14,6 +14,7 @@
 
 <?php
 include "../inc/dbinfo.inc";
+include "../inc/netinfo.inc";
 require "vendor/autoload.php";
 use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Net\SFTP;
@@ -57,8 +58,9 @@ if (!$sftp->login($username, $privateKey)) {
 
 // Envío del archivo
 // Ruta del archivo local y destino remoto
-$LocalFile = $file;
-$RemoteFile = "/home/ec2-user/properties/" . $user . ".properties";
+$LocalFile  = $file;
+$remotedir  = "/home/ec2-user/properties/";
+$RemoteFile = $remotedir . $user . ".properties";
 
 if (!$sftp->put($RemoteFile, $LocalFile, SFTP::SOURCE_LOCAL_FILE)) {
     throw new Exception('Error al copiar archivo al servidor remoto');
