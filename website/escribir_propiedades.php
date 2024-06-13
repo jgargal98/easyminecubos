@@ -4,7 +4,6 @@ include "../inc/dbinfo.inc";
 require 'vendor/autoload.php'; // Autoload de Composer
 
 use phpseclib3\Net\SSH2;
-use phpseclib3\Crypt\RSA;
 use phpseclib3\Net\SCP;
 
 error_reporting(E_ALL);
@@ -42,17 +41,11 @@ try {
         }
     }
 
-    // Establecer permisos de lectura en el archivo local
-    if (!chmod($localFile, 0644)) { // Cambia los permisos según sea necesario
-        throw new Exception('Error al establecer permisos en el archivo local...');
-    }
-
     // Crear una instancia de SSH2
     $ssh = new SSH2($host, $port);
 
-    // Leer la clave privada y cargarla en RSA
-    $key = new RSA();
-    $key->loadKey(file_get_contents($private_key));
+    // Leer la clave privada
+    $key = file_get_contents($private_key);
 
     // Intentar autenticarse con la clave privada
     if (!$ssh->login($username, $key)) {
