@@ -18,14 +18,14 @@ $container_name = $user . "-server";
 $docker_compose_content = "
 version: '3.8'
 services:
-minecraft_server:
-    build: .
-    image: easy-minecubos
-    container_name: $container_name
-    ports:
-        - '25565:25565'
-    environment:
-";
+    minecraft_server:
+        build: .
+        image: easy-minecubos
+        container_name: $container_name
+        ports:
+            - '25565:25565'
+        environment:
+    ";
 
 // Construir el contenido basado en POST
 foreach ($_POST as $key => $value) {
