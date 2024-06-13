@@ -20,54 +20,53 @@ if (isset($_SESSION['usuario'])){
     $user = $_SESSION['usuario'];
     $jsonFile = "../propiedades/$user-ops.json";
 
-    // Verificar si existe el archivo JSON y si tiene datos
-        $jugadores = array();
+        // Cargar el archivo JSON de jugadores si existe
+        $jsonFile = 'jugadores.json';
+        $jugadores = [];
+
         if (file_exists($jsonFile)) {
-            $jsonData = file_get_contents($jsonFile);
-            $jugadores = json_decode($jsonData, true);
-    
-            if ($jugadores === null || json_last_error() !== JSON_ERROR_NONE) {
-                die("Error al leer el archivo JSON.");
-            }
+            $jsonContent = file_get_contents($jsonFile);
+            $jugadores = json_decode($jsonContent, true);
         }
-    
-        // Inicializar el array de jugadores si está vacío o no existe
-        if (!isset($jugadores['jugadores']) || !is_array($jugadores['jugadores'])) {
-            $jugadores['jugadores'] = array();
-        }
-    
-        // Mostrar el formulario para añadir un nuevo jugador
-        echo '<form action="escribir_ops.php" method="post">';
-        echo '<h3>Añadir Jugador</h3>';
-        echo '<label for="name">Nombre:</label>';
-        echo '<input type="text" id="name" name="name" required><br><br>';
-        
-        echo '<label for="level">Nivel:</label>';
-        echo '<select id="level" name="level" required>';
-        echo '<option value="1">1</option>';
-        echo '<option value="2">2</option>';
-        echo '<option value="3">3</option>';
-        echo '<option value="4">4</option>';
-        echo '</select><br><br>';
-        
-        echo '<input type="submit" value="Guardar">';
-        echo '</form>';
-        
-        // Mostrar los jugadores existentes si hay alguno
-        if (!empty($jugadores['jugadores'])) {
-            echo '<h3>Jugadores existentes:</h3>';
+
+        if (!empty($jugadores)) {
             echo '<form action="procesar_formulario.php" method="post">';
+            echo '<div class="existing-players">';
+            echo '<h3>Jugadores existentes:</h3>';
             echo '<ul>';
-            foreach ($jugadores['jugadores'] as $jugador) {
+            
+            foreach ($jugadores as $index => $jugador) {
                 echo '<li>';
-                echo '<input type="checkbox" name="eliminar[]" value="' . htmlspecialchars($jugador['name']) . '"> Eliminar ';
-                echo $jugador['name'] . ' - Nivel: ' . $jugador['level'];
+                echo '<input type="checkbox" name="eliminar[]" value="' . $index . '">';
+                echo htmlspecialchars($jugador['name']) . ' (Nivel ' . $jugador['level'] . ')';
                 echo '</li>';
             }
+            
             echo '</ul>';
-            echo '<input type="submit" value="Eliminar Jugadores Seleccionados">';
+            echo '<button type="submit" name="eliminarJugadores" class="minecraft-button">Eliminar Jugadores</button>';
+            echo '</div>';
             echo '</form>';
         }
+?>
+
+        <!-- Formulario para añadir nuevo jugador -->
+        <form action="procesar_formulario.php" method="post" class="signup-form">
+            <h3>Añadir Nuevo Jugador</h3>
+            <label for="name">Nombre:</label><br>
+            <input type="text" id="name" name="name" required><br><br>
+            
+            <label for="level">Nivel:</label><br>
+            <select id="level" name="level" class="minecraft-select">
+                <option value="1">Nivel 1</option>
+                <option value="2">Nivel 2</option>
+                <option value="3">Nivel 3</option>
+                <option value="4">Nivel 4</option>
+            </select><br><br>
+            
+            <button type="submit" name="añadirJugador" class="minecraft-button">Añadir Jugador</button>
+        </form>
+        
+<?php
 }
 else
 {
