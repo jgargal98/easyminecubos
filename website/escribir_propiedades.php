@@ -1,6 +1,8 @@
 <?php
 require 'vendor/autoload.php'; // Autoload de Composer
 
+include('Crypt/RSA.php');
+
 use phpseclib3\Net\SSH2;
 use phpseclib3\Crypt\RSA;
 
