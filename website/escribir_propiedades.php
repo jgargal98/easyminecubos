@@ -1,7 +1,21 @@
 <?php
-include "../inc/dbinfo.inc";
+echo "Iniciando script...<br>";
 
-require 'vendor/autoload.php'; // Autoload de Composer
+// Incluir archivo de configuración de base de datos
+if (file_exists('../inc/dbinfo.inc')) {
+    include "../inc/dbinfo.inc";
+    echo "Archivo dbinfo.inc incluido.<br>";
+} else {
+    exit("Error: No se encuentra el archivo dbinfo.inc.<br>");
+}
+
+// Autoload de Composer
+if (file_exists('vendor/autoload.php')) {
+    require 'vendor/autoload.php';
+    echo "Autoload de Composer incluido.<br>";
+} else {
+    exit("Error: No se encuentra el archivo autoload de Composer.<br>");
+}
 
 use phpseclib3\Net\SSH2;
 use phpseclib3\Crypt\RSA;
@@ -18,14 +32,14 @@ echo "Iniciando script...<br>";
 // Leer la clave privada
 $key = new RSA();
 if (!$key->load(file_get_contents($private_key))) {
-    exit('Error al cargar la clave privada.');
+    exit('Error al cargar la clave privada.<br>');
 }
 echo "Clave privada cargada correctamente.<br>";
 
 session_start();
 
 if (!isset($_SESSION['usuario'])) {
-    exit('No se ha establecido una sesión de usuario.');
+    exit('No se ha establecido una sesión de usuario.<br>');
 }
 
 $user = $_SESSION['usuario'];
@@ -43,7 +57,7 @@ if (!file_exists($file)) {
     if (touch($file)) {
         echo "Archivo creado: $file<br>";
     } else {
-        exit("Error al crear el archivo: $file");
+        exit("Error al crear el archivo: $file<br>");
     }
 } else {
     echo "Archivo ya existe: $file<br>";
@@ -51,7 +65,7 @@ if (!file_exists($file)) {
 
 $fp = fopen($file, "w");
 if (!$fp) {
-    exit("Error al abrir el archivo para escritura.");
+    exit("Error al abrir el archivo para escritura.<br>");
 }
 echo "Archivo abierto para escritura: $file<br>";
 
@@ -76,7 +90,7 @@ foreach ($_POST as $key => $value) {
 
 if (fwrite($fp, $docker_compose_content) === false) {
     fclose($fp);
-    exit("Error al escribir en el archivo.");
+    exit("Error al escribir en el archivo.<br>");
 }
 fclose($fp);
 echo "Archivo escrito correctamente: $file<br>";
@@ -84,20 +98,20 @@ echo "Archivo escrito correctamente: $file<br>";
 // Crear una instancia de SSH2
 $ssh = new SSH2($host, $port);
 if (!$ssh) {
-    exit("No se pudo crear la instancia de SSH.");
+    exit("No se pudo crear la instancia de SSH.<br>");
 }
 
 echo "Instancia de SSH creada.<br>";
 
 if (!$ssh->login($username, $key)) {
-    exit('Fallo al iniciar sesión en SSH.');
+    exit('Fallo al iniciar sesión en SSH.<br>');
 }
 echo "Conexión SSH establecida.<br>";
 
 // Crear una instancia de SCP
 $scp = new SCP($ssh);
 if (!$scp) {
-    exit("No se pudo crear la instancia de SCP.");
+    exit("No se pudo crear la instancia de SCP.<br>");
 }
 echo "Instancia de SCP creada.<br>";
 
@@ -107,3 +121,5 @@ if ($scp->put($remoteFile, file_get_contents($localFile))) {
 } else {
     echo "Error al transferir el archivo.<br>";
 }
+
+?>
