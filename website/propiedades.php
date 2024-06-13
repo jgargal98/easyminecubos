@@ -18,8 +18,14 @@ session_start();
 
 if (isset($_SESSION['usuario'])){
     $user = $_SESSION['usuario'];
+    $file = "../propiedades/$user.properties";
 
-    $properties = fopen("propiedades/$user.properties", "r");
+    //si el usuario no tiene un archivo creado, se usa el archivo por defecto
+    if (!file_exists($file)) {
+        $file = "default.properties";
+    }
+
+    $properties = fopen($file, "r");
 
     print "<form action='escribir_propiedades.php' class='signup-form' method='post'>";
 
