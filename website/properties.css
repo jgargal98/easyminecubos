@@ -137,7 +137,7 @@ body {
 
 /* Estilos para el botón de volver a la página de inicio */
 .back-to-home {
-    display: block;
+    display: inline-block;
     margin-top: 20px;
     padding-bottom: 50px;
     font-size: 14px;
