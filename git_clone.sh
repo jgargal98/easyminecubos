@@ -11,6 +11,10 @@ git clone https://github.com/meanoentucorro/easyminecubos.git /tmp/github_repo >
 if [ $? -eq 0 ]; then
     cp -r /tmp/github_repo/website/* /var/www/html/
 
+    cd /var/www/html/
+
+    composer require phpseclib/phpseclib
+
     sudo systemctl restart httpd
     
     echo "OK"

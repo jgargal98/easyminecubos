@@ -15,23 +15,28 @@ $passphrase = null; // Si tu clave tiene una frase de paso, añádela aquí
 
 // Leer la clave privada
 $key = new RSA();
-$key->load(file_get_contents($private_key));
+if (!$key->load(file_get_contents($private_key))) {
+    exit('Error al cargar la clave privada.');
+}
 
 session_start();
 
 $user = $_SESSION['usuario'];
 
-$file ="/var/www/dockercomposes/" . $user . "-docker-compose.yml";
+$file = "/var/www/dockercomposes/" . $user . "-docker-compose.yml";
 
 // Ruta del archivo local y destino remoto
 $localFile = $file;
 $remoteFile = "/home/ec2-user/docker/" . $user . "-docker-compose.yml";
 
-if (!file_exists("$file")) {
-    touch("$file");
+if (!file_exists($file)) {
+    touch($file);
 }
 
-fopen("$file", "w");
+$fp = fopen($file, "w");
+if (!$fp) {
+    exit("Error al abrir el archivo para escritura.");
+}
 
 $container_name = $user . "-server";
 
@@ -49,25 +54,32 @@ services:
 
 foreach ($_POST as $key => $value) {
     $value = preg_replace("/[^a-zA-Z0-9\s]/", "", $value);
-    $docker_compose_content .= "            - $key = $value\n";
+    $docker_compose_content .= "            - $key=$value\n";
 }
 
-if (file_put_contents($file, $docker_compose_content) !== false) {
-    echo "Archivo $file generado correctamente.<br>";
-
-    // Crear una instancia de SSH2
-    $ssh = new SSH2($host, $port);
-
-    if (!$ssh->login($username, $key)) {
-        exit('Login Failed');
-    }
-
-    // Crear una instancia de SCP
-    $scp = new SCP($ssh);
-    // Transferir el archivo
-    if ($scp->put($remoteFile, file_get_contents($localFile))) {
-        echo "Archivo transferido correctamente.\n";
-    } else {
-        echo "Error al transferir el archivo.\n";
-    }
+if (fwrite($fp, $docker_compose_content) === false) {
+    exit("Error al escribir en el archivo.");
 }
+
+fclose($fp);
+echo "Archivo $file generado correctamente.<br>";
+
+// Crear una instancia de SSH2
+$ssh = new SSH2($host, $port);
+
+if (!$ssh->login($username, $key)) {
+    exit('Fallo al iniciar sesión en SSH.');
+}
+
+echo "Conexión SSH establecida.<br>";
+
+// Crear una instancia de SCP
+$scp = new SCP($ssh);
+// Transferir el archivo
+if ($scp->put($remoteFile, file_get_contents($localFile))) {
+    echo "Archivo transferido correctamente.<br>";
+} else {
+    echo "Error al transferir el archivo.<br>";
+}
+
+?>
