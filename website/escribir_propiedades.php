@@ -31,6 +31,10 @@ echo "Preparando la clave privada...<br>";
 
 // Leer la clave privada
 $key = new RSA();
+if (!file_exists($private_key)) {
+    exit('Error: No se encuentra la clave privada en ' . $private_key . '<br>');
+}
+
 $key_content = file_get_contents($private_key);
 if ($key_content === false) {
     exit('Error al leer la clave privada.<br>');
