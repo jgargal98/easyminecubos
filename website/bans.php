@@ -37,7 +37,7 @@ if (isset($_SESSION['usuario'])) {
         foreach ($jugadoresBaneados as $jugador) {
             echo '<li>';
             echo '<input type="checkbox" name="eliminar[]" value="' . htmlspecialchars($jugador['name']) . '">';
-            echo htmlspecialchars($jugador['name']) . ' - Expira: ' . htmlspecialchars($jugador['expires']) . ' - Razón: ' . htmlspecialchars($jugador['reason']);
+            echo htmlspecialchars($jugador['name']) . '<br> - Expira: ' . htmlspecialchars($jugador['expires']) . '<br> - Razón: ' . htmlspecialchars($jugador['reason']);
             echo '</li>';
         }
         
