@@ -11,7 +11,7 @@ ini_set('display_errors', 1);
 $host = '34.202.66.61'; // Cambia por tu dirección IP o nombre de host SSH
 $port = 22; // Puerto por defecto para SSH
 $username = 'ec2-user'; // Cambia por tu nombre de usuario SSH
-$public_key_file = '/path/to/your/public_key.pem'; // Ruta a tu clave pública
+$public_key_file = '/home/ec2-user/easyminecubos-servermc.pub'; // Ruta a tu clave pública
 
 try {
     // Cargar la clave pública usando PublicKeyLoader
