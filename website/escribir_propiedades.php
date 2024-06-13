@@ -19,8 +19,9 @@ $docker_compose_content = "
 version: '3.8'
 services:
     minecraft_server:
-        build: .
-        image: easy-minecubos
+        build:
+            context: .
+            dockerfile: easy-minecubos
         container_name: $container_name
         ports:
             - '25565:25565'
