@@ -7,6 +7,9 @@ use phpseclib3\Net\SSH2;
 use phpseclib3\Crypt\RSA;
 use phpseclib3\Net\SCP;
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 $host = '34.202.66.61';
 $port = 22; // Puerto por defecto para SSH
 $username = 'ec2-user';
