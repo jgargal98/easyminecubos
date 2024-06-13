@@ -24,7 +24,7 @@ if (isset($_SESSION['usuario'])){
                     <a href='propiedades.php' class='minecraft-button'>Propiedades</a>
                     <a href='bans.php' class='minecraft-button'>Administrar bans</a>
                     <a href='ops.php' class='minecraft-button'>Administrar ops</a>
-                    <a href='whitelist.php' class='minecraft-button'>Administrar lista blanca</a>
+                    <a href='whitelist.php' class='minecraft-button'>Administrar whitelist</a>
                 </div>";
     }
 }
