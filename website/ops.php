@@ -29,7 +29,7 @@ if (isset($_SESSION['usuario'])) {
     if (!empty($jugadores)) {
         echo '<form action="escribir_ops.php" class="signup-form" method="post">';
         echo '<div class="existing-players">';
-        echo '<h3>Jugadores existentes:</h3>';
+        echo '<h3>Operadores existentes:</h3>';
         echo '<ul>';
         
         foreach ($jugadores as $index => $jugador) {
@@ -40,7 +40,7 @@ if (isset($_SESSION['usuario'])) {
         }
         
         echo '</ul>';
-        echo '<button type="submit" name="eliminarJugadores" class="minecraft-button">Eliminar Jugadores</button>';
+        echo '<button type="submit" name="eliminarJugadores" class="minecraft-button">Eliminar Operadores</button>';
         echo '</div>';
         echo '</form>';
     }
