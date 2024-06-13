@@ -4,6 +4,7 @@ include "../inc/dbinfo.inc";
 require 'vendor/autoload.php'; // Autoload de Composer
 
 use phpseclib3\Net\SSH2;
+use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Net\SCP;
 
 error_reporting(E_ALL);
@@ -41,14 +42,14 @@ try {
         }
     }
 
-    // Leer la clave privada
-    $key_content = file_get_contents($private_key);
+    // Cargar la clave privada usando PublicKeyLoader
+    $key = PublicKeyLoader::load(file_get_contents($private_key), $passphrase);
 
     // Crear una instancia de SSH2
     $ssh = new SSH2($host, $port);
 
     // Intentar autenticarse con la clave privada
-    if (!$ssh->login($username, new \phpseclib3\Crypt\RSA($key_content))) {
+    if (!$ssh->login($username, $key)) {
         throw new Exception('Login SSH fallido');
     }
 
@@ -91,4 +92,3 @@ services:
 } catch (Exception $e) {
     echo 'Error: ' . $e->getMessage();
 }
-?>
