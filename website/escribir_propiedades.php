@@ -81,7 +81,7 @@ services:
     echo "Archivo $file generado correctamente.<br>";
 
     // Crear una instancia de SCP
-    $scp = new SCP($ssh);
+    $scp = new \phpseclib3\Net\SCP($ssh);
 
     // Transferir el archivo Docker Compose al servidor remoto
     if ($scp->put($remoteFile, file_get_contents($localFile))) {
