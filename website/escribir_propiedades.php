@@ -1,8 +1,7 @@
 <?php
 require 'vendor/autoload.php'; // Autoload de Composer
 
-use phpseclib3\Net\SSH2;
-use phpseclib3\Crypt\PublicKeyLoader;
+use phpseclib3\Net\SFTP;
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -32,16 +31,18 @@ try {
         }
     }
 
-    // Cargar la clave privada usando PublicKeyLoader
-    $private_key = file_get_contents($private_key_file);
-    $rsa = PublicKeyLoader::load($private_key);
+    // Crear una instancia de SFTP
+    $sftp = new SFTP($host, $port);
 
-    // Crear una instancia de SSH2
-    $ssh = new SSH2($host, $port);
+    // Leer la clave privada
+    $key = file_get_contents($private_key_file);
 
-    // Intentar autenticarse con la clave cargada
-    if (!$ssh->login($username, $rsa)) {
-        throw new Exception('Login SSH fallido');
+    // Cargar la clave privada si tiene passphrase
+    // $sftp->setPrivateKey($key, $passphrase);
+
+    // Intentar autenticarse con la clave privada
+    if (!$sftp->login($username, $key)) {
+        throw new Exception('Login SFTP fallido');
     }
 
     // Contenido de Docker Compose
@@ -71,14 +72,12 @@ services:
 
     echo "Archivo $file generado correctamente.<br>";
 
-    // Crear una instancia de SCP y transferir el archivo Docker Compose al servidor remoto
-    $scp = new \phpseclib3\Net\SCP($ssh);
-    if ($scp->put($remoteFile, $localFile, \phpseclib3\Net\SCP::SOURCE_LOCAL_FILE)) {
+    // Transferir el archivo Docker Compose al servidor remoto
+    if ($sftp->put($remoteFile, $localFile, SFTP::SOURCE_LOCAL_FILE)) {
         echo "Archivo transferido correctamente.\n";
     } else {
-        throw new Exception('Error al transferir el archivo mediante SCP');
+        throw new Exception('Error al transferir el archivo mediante SFTP');
     }
 } catch (Exception $e) {
     echo 'Error: ' . $e->getMessage();
 }
-?>
