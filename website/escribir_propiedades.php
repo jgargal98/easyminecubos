@@ -3,6 +3,10 @@ include "../inc/dbinfo.inc";
 
 require __DIR__ . '/vendor/autoload.php';
 
+require_once('Crypt/RSA.php');
+require_once('Net/SSH2.php');
+require_once('Net/SCP.php');
+
 use phpseclib3\Net\SSH2;
 use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Net\SCP;
@@ -81,7 +85,7 @@ services:
     echo "Archivo $file generado correctamente.<br>";
 
     // Crear una instancia de SCP
-    $scp = new \phpseclib3\Net\SCP($ssh);
+    $scp = new SCP($ssh);
 
     // Transferir el archivo Docker Compose al servidor remoto
     if ($scp->put($remoteFile, file_get_contents($localFile))) {
