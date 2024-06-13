@@ -5,7 +5,7 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Ruta al archivo JSON
     $user = $_SESSION['usuario'];
-    $jsonFile = "../propiedades/$user-baneados.json";
+    $jsonFile = "../propiedades/$user-banned-players.json";
 
     // Leer y decodificar el JSON existente si existe
     $jugadores = array();
