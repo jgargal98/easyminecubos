@@ -67,7 +67,7 @@ if (isset($_SESSION['usuario'])) {
 ?>
 
         </div>
-        <a href="dashboard.php" class="back-to-home">volver</a>
+        <a href="dashboard.php" class="back-to-home">Volver</a>
     </div>
 </body>
 </html>

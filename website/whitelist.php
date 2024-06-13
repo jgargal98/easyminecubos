@@ -57,7 +57,7 @@
                 <button type="submit" name="añadirJugador" class="minecraft-button">Añadir Jugador</button>
             </form>
         </div>
-        <a href="dashboard.php" class="back-to-home">volver</a>
+        <a href="dashboard.php" class="back-to-home">Volver</a>
     </div>
 </body>
 </html>
