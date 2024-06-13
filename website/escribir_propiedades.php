@@ -79,7 +79,8 @@ if (!$ssh->login($username, $privateKey)) {
 
 // Inicialización del contenedor
 
-$docker_command = "docker-compose -f $RemoteFile up -d";
+//$docker_command = "docker-compose -f $RemoteFile up -d";
+$docker_command = "echo 'santino chupame los huevos'";
 $output = $ssh->exec($docker_command);
 
 if ($output === false) {
