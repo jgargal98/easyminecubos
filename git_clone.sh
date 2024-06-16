@@ -6,7 +6,7 @@ fi
 
 rm -rf /var/www/html/*
 
-git clone https://github.com/meanoentucorro/easyminecubos.git /tmp/github_repo > /dev/null 2>&1
+git clone https://github.com/jgargal98/easyminecubos.git /tmp/github_repo > /dev/null 2>&1
 
 if [ $? -eq 0 ]; then
     cp -r /tmp/github_repo/website/* /var/www/html/
