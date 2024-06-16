@@ -1,48 +1,31 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Servidor: 127.0.0.1
--- Tiempo de generación: 18-04-2024 a las 13:51:32
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+-- Crear la base de datos
+CREATE DATABASE IF NOT EXISTS `easyminecubos`;
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+USE `easyminecubos`;
 
---
--- Base de datos: `usuarios`
---
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `usuario`
---
-
-CREATE TABLE `usuario` (
+-- tabla `usuario`
+CREATE TABLE IF NOT EXISTS `usuario` (
   `user` varchar(20) NOT NULL,
-  `pass` varchar(255) NOT NULL
+  `pass` varchar(255) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `fecha_registro` datetime NOT NULL,
+  PRIMARY KEY (`user`),
+  UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Índices para tablas volcadas
---
+-- tabla `servidor`
+CREATE TABLE IF NOT EXISTS `servidor` (
+  `id_servidor` int(11) NOT NULL AUTO_INCREMENT,
+  `usuario_propietario` varchar(20) NOT NULL,
+  `fecha_creacion` datetime NOT NULL,
+  `ruta_backup` varchar(255) DEFAULT NULL,
+  `fecha_ultimo_backup` datetime DEFAULT NULL,
+  PRIMARY KEY (`id_servidor`),
+  CONSTRAINT `fk_servidor_usuario` FOREIGN KEY (`usuario_propietario`) REFERENCES `usuario` (`user`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Indices de la tabla `usuario`
---
-ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`user`,`pass`);
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
