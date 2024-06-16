@@ -1,12 +1,6 @@
 <?php
 include "../inc/dbinfo.inc";
 
-// Configuración de la base de datos
-$servername = "localhost"; // Cambia a la dirección del servidor si es necesario
-$username = "root";
-$password = "2asir";
-$database = "easyminecubos";
-
 // Crear conexión
 
 $conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
@@ -28,8 +22,10 @@ $error = "";
     $confirmar_pass = $_POST["confirm_password"];
 
     // Validar si el usuario ya existe
-    $sql = "SELECT * FROM usuario WHERE user='$nombre'";
-    $result = $conn->query($sql);
+    $stmt = $conn->prepare("SELECT * FROM usuario WHERE user=?");
+    $stmt->bind_param("s", $nombre);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $error = "El nombre de usuario ya está en uso.";

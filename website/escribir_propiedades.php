@@ -32,11 +32,11 @@ $file = $directory . $user . ".properties";
 // Construir el contenido basado en POST
 foreach ($_POST as $key => $value) {
     $value = preg_replace("/[^a-zA-Z0-9\s]/", "", $value);
-    $docker_compose_content .= "$key=$value\n";
+    $properties_content .= "$key=$value\n";
 }
 
 // Escribir contenido en el archivo Docker Compose
-if (file_put_contents($file, $docker_compose_content) === false) {
+if (file_put_contents($file, $properties_content) === false) {
     throw new Exception("Error al escribir en el archivo $file");
 }
 
