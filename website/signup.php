@@ -18,6 +18,7 @@ $error = "";
 // Procesar el formulario cuando se envía
     // Validación de campos
     $nombre         = $_POST["username"];
+    $email          = $_POST["email"];
     $pass           = $_POST["password"];
     $confirmar_pass = $_POST["confirm_password"];
 
@@ -34,10 +35,14 @@ $error = "";
     } else {
         // Insertar el nuevo usuario en la base de datos
         $hashed_password = password_hash($pass, PASSWORD_DEFAULT); // Hash de la contraseña
-        $sql_insert = "INSERT INTO usuario (user, pass) VALUES ('$nombre', '$hashed_password')";
-
-        if ($conn->query($sql_insert) === TRUE) {
-            // Registro exitoso, podrías redirigir a una página de inicio de sesión
+        $fecha_registro = date('Y-m-d H:i:s'); // Fecha y hora actual
+        $sql_insert = "INSERT INTO usuario (user, pass, email, fecha_registro) VALUES (?, ?, ?, ?)";
+        
+        $stmt = $conn->prepare($sql_insert);
+        $stmt->bind_param("ssss", $nombre, $hashed_password, $email, $fecha_registro);
+        
+        if ($stmt->execute()) {
+            // Registro exitoso.
             header("Location: login.php");
             exit();
         } else {
@@ -61,6 +66,7 @@ $error = "";
       <form class='signup-form' action='signup.php' method='POST'>
         <h2>Crear una cuenta</h2>
         <input type='text' name='username' placeholder='Nombre de usuario' required>
+        <input type='email' name='email' placeholder='Correo electrónico' required>
         <input type='password' name='password' placeholder='Contraseña' required>
         <input type='password' name='confirm_password' placeholder='Confirmar contraseña' required><br>
         <span style="color: red;"><?php echo $error; ?></span><br> <!-- Muestra el mensaje de error -->
