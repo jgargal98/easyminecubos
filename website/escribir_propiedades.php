@@ -13,6 +13,7 @@
     <div class='container'>
 
 <?php
+
 include "../inc/dbinfo.inc";
 include "../inc/netinfo.inc";
 require "vendor/autoload.php";
@@ -25,7 +26,7 @@ session_start();
 //CREACION DEL DOCKER COMPOSE
 
 $user = $_SESSION['usuario'];
-$directory = "/var/www/propiedades/";
+$directory = DIR_PROPIEDADES;
 $file = $directory . $user . ".properties";
 
 // Construir el contenido basado en POST
@@ -42,9 +43,9 @@ if (file_put_contents($file, $docker_compose_content) === false) {
 echo "Archivo $file generado correctamente.<br>";
 
 // Crear la sesión SFTP
-$host = '34.202.66.61';
-$username = 'ec2-user';
-$private_key_file = '/home/ec2-user/easyminecubos-servermc.pem';
+$host = HOST;
+$username = USERNAME;
+$private_key_file = SSH_PASS;
 
 $sftp = new SFTP($host);
 
@@ -59,7 +60,7 @@ if (!$sftp->login($username, $privateKey)) {
 // Envío del archivo
 // Ruta del archivo local y destino remoto
 $LocalFile  = $file;
-$remotedir  = "/home/ec2-user/properties/";
+$remotedir  = REMOTE_DIR;
 $RemoteFile = $remotedir . $user . ".properties";
 
 if (!$sftp->put($RemoteFile, $LocalFile, SFTP::SOURCE_LOCAL_FILE)) {
