@@ -6,12 +6,20 @@
     <title>Dashboard - Easy Minecubos</title>
     <link rel='stylesheet' href='properties.css'>
     <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
         .center-wrapper {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100%;
             text-align: center;
         }
     </style>
