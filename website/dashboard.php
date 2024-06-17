@@ -4,7 +4,7 @@
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Dashboard - Easy Minecubos</title>
-    <link rel='stylesheet' href='properties.css'>
+    <link rel='stylesheet' href='styles.css'>
 </head>
 <body>
     <div class='container'>
@@ -25,7 +25,7 @@
                       </div>";
             }
         } else {
-            echo '<p>No estas conectado.</p>';
+            echo '<p>No estás conectado.</p>';
         }
         ?>
         
