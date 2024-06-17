@@ -40,7 +40,7 @@ if (file_put_contents($file, $properties_content) === false) {
     throw new Exception("Error al escribir en el archivo $file");
 }
 
-echo "Archivo $file generado correctamente.<br>";
+// echo "Archivo $file generado correctamente.<br>";
 
 // Crear la sesión SFTP
 $host = HOST;
@@ -67,7 +67,7 @@ if (!$sftp->put($RemoteFile, $LocalFile, SFTP::SOURCE_LOCAL_FILE)) {
     throw new Exception('Error al copiar archivo al servidor remoto');
 }
 
-echo "Archivo '$LocalFile' copiado correctamente a '$RemoteFile' en el servidor remoto.<br><br><br>";
+// echo "Archivo '$LocalFile' copiado correctamente a '$RemoteFile' en el servidor remoto.<br><br><br>";
 
 // Crear nueva instancia de ssh
 $ssh = new SSH2($host);
@@ -85,7 +85,7 @@ if ($output === false) {
     throw new Exception('Error al ejecutar comando SSH');
 }
 
-echo "Respuesta del comando SSH:\n";
+echo "<h3>Conéctate: \n";
 echo $output . "\n";
 
 ?>
