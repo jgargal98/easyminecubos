@@ -9,7 +9,8 @@
 <body>
     <div class='container'>
         <img src='assets/easy-minecubos.png' alt='Título de la Página'>
-        <div class='signup-form'>
+    </div>
+    <div class='container'>
         
 <?php
 session_start();
