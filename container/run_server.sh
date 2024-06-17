@@ -26,8 +26,5 @@ docker run -d --name ${CONTAINER_NAME} -e FILE_NAME=$FILE_NAME -v $(pwd)/propert
 # Obtener la IP de la máquina
 IP=$(hostname -I | awk '{print $1}')
 
-# Especificar el puerto
-PORT=25565
-
-# Devolver la IP y el puerto en el formato ip:puerto
-echo "${IP}:${PORT}"
+# Devolver la IP
+echo "${IP}"
