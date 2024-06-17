@@ -17,12 +17,12 @@
             if ("variable" == false) {
                 echo "Tu servidor está encendido, debes detenerlo para poder configurarlo.<br><br>";
             } else {
-                echo "<div class='options'>
+                echo "
                         <a href='propiedades.php' class='minecraft-button'>Propiedades</a>
                         <a href='bans.php' class='minecraft-button'>vetados</a>
                         <a href='ops.php' class='minecraft-button'>Operadores</a>
                         <a href='whitelist.php' class='minecraft-button'>whitelist</a>
-                      </div>";
+                      ";
             }
         } else {
             echo '<p>No estás conectado.</p>';
