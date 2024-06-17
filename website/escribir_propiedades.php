@@ -85,8 +85,12 @@ if ($output === false) {
     throw new Exception('Error al ejecutar comando SSH');
 }
 
+$port = 25565;
+
 echo "<h3>Conéctate:<br>";
-echo htmlspecialchars($output);
+echo "<a href='minecraft://php echo htmlspecialchars($output) . ':' . htmlspecialchars($port);' style='color: #0056b3; text-decoration: none; font-family: Arial, sans-serif; background-color: #cce5ff; padding: 10px; border-radius: 5px; display: inline-block;'>
+        Haz clic aquí para conectarte
+    </a>";
 
 ?>
 </div>
