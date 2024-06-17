@@ -1,12 +1,10 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 include "../inc/dbinfo.inc";
 
 // Crear conexión
+
 $conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+#$conn = new mysqli($servername, $username, $password, $database);
 
 // Comprobar la conexión
 if ($conn->connect_error) {
@@ -18,7 +16,6 @@ $nombre = $pass = $confirmar_pass = "";
 $error = "";
 
 // Procesar el formulario cuando se envía
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validación de campos
     $nombre         = $_POST["username"];
     $email          = $_POST["email"];
@@ -27,9 +24,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validar si el usuario ya existe
     $stmt = $conn->prepare("SELECT * FROM usuario WHERE user=?");
-    if (!$stmt) {
-        die("Error en prepare: " . $conn->error);
-    }
     $stmt->bind_param("s", $nombre);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -43,21 +37,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $hashed_password = password_hash($pass, PASSWORD_DEFAULT); // Hash de la contraseña
         $fecha_registro = date('Y-m-d H:i:s'); // Fecha y hora actual
         $sql_insert = "INSERT INTO usuario (user, pass, email, fecha_registro) VALUES (?, ?, ?, ?)";
-
+        
         $stmt = $conn->prepare($sql_insert);
-        if (!$stmt) {
-            die("Error en prepare: " . $conn->error);
-        }
         $stmt->bind_param("ssss", $nombre, $hashed_password, $email, $fecha_registro);
-
+        
         if ($stmt->execute()) {
             // Registro exitoso.
             header("Location: login.php");
             exit();
         } else {
             $error = "Error al registrar el usuario: " . $conn->error;
-        }
-    }
+  }
 }
 
 ?>
@@ -79,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type='email' name='email' placeholder='Correo electrónico' required>
         <input type='password' name='password' placeholder='Contraseña' required>
         <input type='password' name='confirm_password' placeholder='Confirmar contraseña' required><br>
-        <span style="color: red;"><?php echo htmlspecialchars($error); ?></span><br> <!-- Muestra el mensaje de error -->
+        <span style="color: red;"><?php echo $error; ?></span><br> <!-- Muestra el mensaje de error -->
         <button type='submit' class='minecraft-button'>Registrarse</button>
       </form>
       <a href='index.html' class='back-to-home'>Volver a la página de inicio</a>
