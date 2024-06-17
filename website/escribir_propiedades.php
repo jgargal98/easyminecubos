@@ -85,8 +85,8 @@ if ($output === false) {
     throw new Exception('Error al ejecutar comando SSH');
 }
 
-echo "<h3>Conéctate: \n";
-echo $output . "\n";
+echo "<h3>Conéctate:<br>";
+echo htmlspecialchars($output);
 
 ?>
 </div>
