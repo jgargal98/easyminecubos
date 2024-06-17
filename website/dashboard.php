@@ -5,6 +5,16 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Dashboard - Easy Minecubos</title>
     <link rel='stylesheet' href='properties.css'>
+    <style>
+        .center-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <div class="center-wrapper">
